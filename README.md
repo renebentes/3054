@@ -1,7 +1,7 @@
 # 3054 - Fullstack .NET
 
-> Repositório do curso 3054 - Fullstack .NET da plataforma [balta.io](https://balta.io).
->
+Repositório do curso 3054 - Fullstack .NET da plataforma [balta.io](https://balta.io).
+
 > [!IMPORTANT]
 > Todo conteúdo apresentado neste leva em consideração o que venho estudando ao longo do tempo e, consequentemente, difere do original. Em determinados pontos, podem ser tidos como casos de _over engineer_, entretanto, são intencionais para aplicação e fixação de conceitos.
 
