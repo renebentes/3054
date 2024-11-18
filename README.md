@@ -3,7 +3,7 @@
 Repositório do curso 3054 - Fullstack .NET da plataforma [balta.io](https://balta.io).
 
 > [!IMPORTANT]
-> Todo conteúdo apresentado neste leva em consideração o que venho estudando ao longo do tempo e, consequentemente, difere do original. Em determinados pontos, podem ser tidos como casos de _over engineer_, entretanto, são intencionais para aplicação e fixação de conceitos.
+> Todo conteúdo apresentado leva em consideração o que venho estudando ao longo do tempo e, consequentemente, difere do original. Determinados pontos, podem ser tidos como casos de _over engineer_, entretanto, são intencionais ao passo que sua aplicação serve para a fixação de conceitos.
 
 Contém códigos de exemplos desenvolvidos durante as aulas.
 
