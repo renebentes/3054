@@ -22,6 +22,14 @@ indent_size = 2
 [*.xml]
 indent_size = 2
 
+# XML project files
+[*.csproj]
+indent_size = 2
+
+# XML config files
+[*.{props,targets}]
+indent_size = 2
+
 # C# files
 [*.cs]
 
