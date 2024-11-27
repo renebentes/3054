@@ -1,5 +1,8 @@
 namespace Dima.Core.Primitives;
 
+/// <summary>
+/// Represents the base class that all entities derive from.
+/// </summary>
 public abstract class Entity
 
 {
