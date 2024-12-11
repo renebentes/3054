@@ -17,4 +17,17 @@ public class ErrorTests
         // Assert
         code.Should().Be(error.Code);
     }
+
+    [Fact]
+    public void ToStringShouldReturnMessageFromError()
+    {
+        // Arrange
+        var error = new Error("Error.Test", "Error description");
+
+        // Act
+        string result = error.ToString();
+
+        // Assert
+        result.Should().Be(error.Message);
+    }
 }

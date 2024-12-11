@@ -14,4 +14,8 @@ public sealed record Error(string Code, string Message)
     /// <returns>Returns its <see cref="Code"/> string converted.</returns>
     public static implicit operator string(Error error)
         => error.Code;
+
+    /// <inheritdoc/>
+    public override string ToString()
+        => Message;
 }
