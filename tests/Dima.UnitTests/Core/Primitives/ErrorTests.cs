@@ -1,7 +1,6 @@
 using Dima.Core.Primitives;
-using FluentAssertions;
 
-namespace Dima.Core.UnitTests.Primitives;
+namespace Dima.UnitTests.Core.Primitives;
 
 public class ErrorTests
 {
