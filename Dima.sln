@@ -16,7 +16,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.Core", "src\Dima.Core\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CF215CAB-82A2-4635-BC42-B4EB3C83B231}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.Core.UnitTests", "tests\Dima.Core.UnitTests\Dima.Core.UnitTests.csproj", "{79A9E1B8-EECE-43DA-9917-3B43463D1AE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.UnitTests", "tests\Dima.UnitTests\Dima.UnitTests.csproj", "{79A9E1B8-EECE-43DA-9917-3B43463D1AE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.Api", "src\Dima.Api\Dima.Api.csproj", "{7A0F553F-4D15-4460-9D12-4D0B77BF04A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{79A9E1B8-EECE-43DA-9917-3B43463D1AE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79A9E1B8-EECE-43DA-9917-3B43463D1AE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79A9E1B8-EECE-43DA-9917-3B43463D1AE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A0F553F-4D15-4460-9D12-4D0B77BF04A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A0F553F-4D15-4460-9D12-4D0B77BF04A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0F553F-4D15-4460-9D12-4D0B77BF04A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A0F553F-4D15-4460-9D12-4D0B77BF04A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0F50A6D0-9BCB-46A6-83EB-DD3EABA420BB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{79A9E1B8-EECE-43DA-9917-3B43463D1AE0} = {CF215CAB-82A2-4635-BC42-B4EB3C83B231}
+		{7A0F553F-4D15-4460-9D12-4D0B77BF04A8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18729CE2-E5BC-48EF-9179-04666615AF8E}

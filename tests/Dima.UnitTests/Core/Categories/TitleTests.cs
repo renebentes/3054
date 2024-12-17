@@ -3,7 +3,7 @@ using Dima.Core.Categories;
 using Dima.Core.Primitives;
 using FluentAssertions;
 
-namespace Dima.Core.UnitTests.Categories;
+namespace Dima.UnitTests.Core.Categories;
 
 public class TitleTests
 {
