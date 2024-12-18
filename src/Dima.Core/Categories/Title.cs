@@ -7,9 +7,9 @@ namespace Dima.Core.Categories;
 public sealed record Title(string Value)
 {
     /// <summary>
-    /// The value maximum length
+    /// The title maximum length
     /// </summary>
-    public const int MaxLength = 255;
+    public const int MaxLength = 80;
 
     /// <summary>
     /// Gets the title value
