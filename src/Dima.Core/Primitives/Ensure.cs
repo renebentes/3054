@@ -6,7 +6,7 @@ namespace Dima.Core.Primitives;
 public static class Ensure
 {
     /// <summary>
-    /// Ensures that specified <see cref="string"/> <paramref name="input"/> is not longer than <paramref name="maxLength"/>
+    /// Ensures that specified <see langword="string"/> <paramref name="input"/> is not longer than <paramref name="maxLength"/>
     /// </summary>
     /// <param name="input">The input to check</param>
     /// <param name="maxLength">The maximum length</param>
