@@ -6,6 +6,14 @@ namespace Dima.Core.Categories;
 public static partial class DomainErrors
 {
     /// <summary>
+    /// Contains the description errors/>
+    /// </summary>
+    public static class Description
+    {
+        public static Error LongerThanAllowed => new("Description.LongerThanAllowed", "The description is longer than allowed.");
+    }
+
+    /// <summary>
     /// Contains the title errors/>
     /// </summary>
     public static class Title
