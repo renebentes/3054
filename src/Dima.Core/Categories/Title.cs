@@ -29,4 +29,15 @@ public sealed record Title(string Value)
 
         return value;
     }
+
+    /// <summary>
+    /// Implicitly converts a <see cref="Title"/> object to a <see langword="string"/>.
+    /// </summary>
+    /// <param name="title">The text to convert</param>
+    public static implicit operator string(Title title)
+        => title.ToString();
+
+    /// <inheritdoc/>
+    public override string ToString()
+        => Value;
 }

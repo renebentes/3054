@@ -47,4 +47,31 @@ public class TitleTests
             .Throw<DomainException>()
             .WithMessage(DomainErrors.Title.LongerThanAllowed.ToString());
     }
+
+    [Theory]
+    [InlineData("test title")]
+    [InlineData("test")]
+    public void ImplicitOperatorShouldReturnToString(string text)
+    {
+        // Arrange
+        var title = new Title(text!);
+
+        // Act
+        string result = title;
+
+        // Assert
+        result.Should().Be(title.ToString());
+    }
+
+    [Theory]
+    [InlineData("test title")]
+    [InlineData("test")]
+    public void ToStringShouldReturnValueProperty(string text)
+    {
+        // Arrange, Act
+        var title = new Title(text!);
+
+        // Assert
+        title.ToString().Should().Be(title.Value);
+    }
 }
