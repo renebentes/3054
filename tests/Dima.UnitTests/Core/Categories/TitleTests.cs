@@ -1,7 +1,6 @@
 using Bogus;
 using Dima.Core.Categories;
 using Dima.Core.Primitives;
-using FluentAssertions;
 
 namespace Dima.UnitTests.Core.Categories;
 
