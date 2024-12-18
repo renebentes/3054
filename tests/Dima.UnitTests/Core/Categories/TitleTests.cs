@@ -25,7 +25,7 @@ public class TitleTests
     [InlineData(null)]
     public void CreateTitleShouldReturnDomainExceptionWhenNullOrEmpty(string? text)
     {
-        Action action = () => _ = new Title(text);
+        Action action = () => _ = new Title(text!);
 
         // Assert
         action.Should()
