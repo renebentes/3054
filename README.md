@@ -19,7 +19,7 @@ Você pode encontrar os originais em:
 - [ASP.NET Core Minimal API](https://dotnet.microsoft.com/apps/aspnet/apis)
 - [Visual Studio Community](https://visualstudio.com)
 - [Visual Studio Code](https://code.visualstudio.com)
-- [Microsoft SQL Server](https://www.microsoft.com/sql-server)
+- [PostgreSQL](https://www.postgresql.org)
 
 ## Histórico de alterações
 
