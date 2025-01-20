@@ -1,4 +1,3 @@
-using Dima.Api.Data;
 using Dima.Core.Categories;
 using Dima.Core.Categories.CreateCategory;
 using Dima.Core.Primitives.Result;
