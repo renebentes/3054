@@ -15,14 +15,18 @@ internal sealed class CategoryConfiguration : IEntityTypeConfiguration<Category>
 
         builder.HasKey(c => c.Id);
 
-        builder.Property(c => c.Title)
-            .IsRequired()
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(Title.MaxLength);
+        builder.OwnsOne(c => c.Title)
+            .Property(t => t.Value)
+            .HasColumnName(nameof(Category.Title))
+            .HasColumnType("text")
+            .HasMaxLength(Title.MaxLength)
+            .IsRequired();
 
-        builder.Property(c => c.Description)
-            .IsRequired(false)
-            .HasColumnType("VARCHAR")
-            .HasMaxLength(Description.MaxLength);
+        builder.OwnsOne(c => c.Description)
+            .Property(d => d.Text)
+            .HasColumnName(nameof(Category.Description))
+            .HasColumnType("text")
+            .HasMaxLength(Description.MaxLength)
+            .IsRequired(false);
     }
 }
