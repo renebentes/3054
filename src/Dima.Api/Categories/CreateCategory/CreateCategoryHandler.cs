@@ -15,6 +15,7 @@ internal sealed class CreateCategoryHandler(DimaDbContext context)
         category.SetDescription(request.Description);
 
         await context.AddAsync(category, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return Result.Success();
     }

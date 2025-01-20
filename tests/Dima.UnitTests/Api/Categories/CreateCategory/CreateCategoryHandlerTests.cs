@@ -30,6 +30,9 @@ public class CreateCategoryHandlerTests
 
         result.Should().NotBeNull();
         result.IsSuccess.Should().BeTrue();
-        await _context.Received(1).AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
+        await _context.Received(1)
+            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
+        await _context.Received(1)
+            .SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 }
