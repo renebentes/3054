@@ -6,5 +6,6 @@ namespace Dima.Core.Primitives.Result;
 public enum ResultStatus
 {
     Ok,
-    Failure
+    Failure,
+    Invalid
 }

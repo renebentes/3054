@@ -15,7 +15,7 @@ public class ResultTests
         };
 
         // Act
-        var result = Result.Failure([.. errors]);
+        var result = Result.Failure(errors);
 
         // Assert
         result.IsSuccess.Should()
@@ -40,6 +40,48 @@ public class ResultTests
             .BeFalse();
         result.Status.Should()
             .Be(ResultStatus.Failure);
+
+        result.Errors.Should()
+            .ContainSingle().Which
+            .Should()
+            .BeEquivalentTo(error);
+    }
+
+    [Fact]
+    public void Invalid_WithMultipleErrors_ShouldReturnResultWithInvalidStatus()
+    {
+        // Arrange
+        var errors = new List<Error>{
+            new("invalid1", "invalid message"),
+            new("invalid2", "invalid message")
+        };
+
+        // Act
+        var result = Result.Invalid(errors);
+
+        // Assert
+        result.IsSuccess.Should()
+            .BeFalse();
+        result.Status.Should()
+            .Be(ResultStatus.Invalid);
+        result.Errors.Should()
+            .BeEquivalentTo(errors);
+    }
+
+    [Fact]
+    public void Invalid_WithSingleError_ShouldReturnResultWithInvalidStatus()
+    {
+        // Arrange
+        var error = new Error("invalid", "invalid message");
+
+        // Act
+        var result = Result.Invalid(error);
+
+        // Assert
+        result.IsSuccess.Should()
+            .BeFalse();
+        result.Status.Should()
+            .Be(ResultStatus.Invalid);
         result.Errors.Should()
             .ContainSingle().Which
             .Should()

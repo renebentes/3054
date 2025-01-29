@@ -39,7 +39,7 @@ public class Result
     public ResultStatus Status { get; } = ResultStatus.Ok;
 
     /// <summary>
-    /// Represents a failure that occurred during the operation with an error
+    /// Represents a failure result that occurred during the operation with the specified error.
     /// </summary>
     /// <param name="error">The <see cref="Error"/></param>
     /// <returns>A new instance of <see cref="Result"/> with the specified error</returns>
@@ -47,12 +47,28 @@ public class Result
         => new(ResultStatus.Failure, [error]);
 
     /// <summary>
-    /// Represents a failure that occurred during the operation with a list of errors.
+    /// Represents a failure result that occurred during the operation with a list of errors.
     /// </summary>
     /// <param name="errors">The list of <see cref="Error"/>s</param>
     /// <returns>A new instance of <see cref="Result"/> with the list of errors.</returns>
     public static Result Failure(IEnumerable<Error> errors)
         => new(ResultStatus.Failure, errors);
+
+    /// <summary>
+    /// Represents an invalid result that occurred during the operation with a validaton error.
+    /// </summary>
+    /// <param name="error">The validation <see cref="Error"/></param>
+    /// <returns>A new instance of <see cref="Result"/> with the specified error</returns>
+    public static Result Invalid(Error error)
+        => new(ResultStatus.Invalid, [error]);
+
+    /// <summary>
+    /// Represents an invalid result that occurred during the operation with a list of validation errors.
+    /// </summary>
+    /// <param name="errors">The list of validation <see cref="Error"/>s</param>
+    /// <returns>A new instance of <see cref="Result"/> with the specified error</returns>
+    public static Result Invalid(IEnumerable<Error> errors)
+        => new(ResultStatus.Invalid, errors);
 
     /// <summary>
     /// Represents a successful operation without return type
