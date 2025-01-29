@@ -6,7 +6,7 @@ namespace Dima.UnitTests.Core.Categories;
 public class DescriptionTests
 {
     [Fact]
-    public void CreateDescriptionInstance()
+    public void Description_CreateInstance_WhenValid()
     {
         // Arrange
         var random = new Randomizer();
@@ -19,26 +19,11 @@ public class DescriptionTests
             .NotThrow<DomainException>();
     }
 
-    [Fact]
-    public void CreateDescriptionShouldReturnDomainExceptionWhenValueLenghtIsGreaterAllowed()
-    {
-        // Arrange
-        var random = new Randomizer();
-
-        // Act
-        Action action = () => _ = new Description(random.String(256));
-
-        // Assert
-        action.Should()
-            .Throw<DomainException>()
-            .WithMessage(DomainErrors.Description.LongerThanAllowed.ToString());
-    }
-
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public void CreateDescriptionShouldReturnEmptyWhenNullOrEmpty(string? text)
+    public void Description_ReturnsEmpty_WhenTextIsNullOrEmpty(string? text)
     {
         // Arrange, Act
         var description = new Description(text!);
@@ -48,14 +33,13 @@ public class DescriptionTests
     }
 
     [Fact]
-    public void ImplicitConversionFromStringShouldReturnDomainExceptionWhenValueLenghtIsGreaterAllowed()
+    public void Description_ThrowsDomainException_WhenTextExceedsMaxLenght()
     {
         // Arrange
         var random = new Randomizer();
-        Description description;
 
         // Act
-        Action action = () => description = random.String(256);
+        Action action = () => _ = new Description(random.String(Description.MaxLength + 1));
 
         // Assert
         action.Should()
@@ -63,16 +47,32 @@ public class DescriptionTests
             .WithMessage(DomainErrors.Description.LongerThanAllowed.ToString());
     }
 
+    [Fact]
+    public void ImplicitConversion_ReturnsDescription_FromString()
+    {
+        // Arrange
+        var random = new Faker();
+        var expected = random.Lorem.Sentence();
+
+        // Act
+        Description description = expected;
+
+        // Assert
+        description.Text.Should().Be(expected);
+    }
+
     [Theory]
     [InlineData("test description")]
     [InlineData("")]
     [InlineData("test")]
-    public void ToStringShouldReturnTextProperty(string text)
+    public void ToString_ReturnsText(string text)
     {
         // Arrange, Act
-        var description = new Description(text!);
+        var description = new Description(text);
 
         // Assert
-        description.ToString().Should().Be(description.Text);
+        description.ToString()
+            .Should()
+            .Be(description.Text);
     }
 }

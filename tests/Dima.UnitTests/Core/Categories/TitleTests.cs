@@ -5,8 +5,23 @@ namespace Dima.UnitTests.Core.Categories;
 
 public class TitleTests
 {
+    [Theory]
+    [InlineData("test title")]
+    [InlineData("test")]
+    public void ImplicitConversion_ReturnsToString(string text)
+    {
+        // Arrange
+        var title = new Title(text!);
+
+        // Act
+        string result = title;
+
+        // Assert
+        result.Should().Be(title.ToString());
+    }
+
     [Fact]
-    public void CreateTitleInstance()
+    public void Title_CreateInstance_WhenValid()
     {
         // Arrange
         var random = new Randomizer();
@@ -19,11 +34,26 @@ public class TitleTests
             .NotThrow<DomainException>();
     }
 
+    [Fact]
+    public void Title_ThrowsDomainException_WhenValueExceedsMaxLenght()
+    {
+        // Arrange
+        var random = new Randomizer();
+
+        // Act
+        Action action = () => _ = new Title(random.String(Title.MaxLength + 1));
+
+        // Assert
+        action.Should()
+            .Throw<DomainException>()
+            .WithMessage(DomainErrors.Title.LongerThanAllowed.ToString());
+    }
+
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public void CreateTitleShouldReturnDomainExceptionWhenNullOrEmpty(string? text)
+    public void Title_ThrowsDomainException_WhenValueIsNullOrEmpty(string? text)
     {
         Action action = () => _ = new Title(text!);
 
@@ -33,40 +63,10 @@ public class TitleTests
             .WithMessage(DomainErrors.Title.NullOrEmpty.ToString());
     }
 
-    [Fact]
-    public void CreateTitleShouldReturnDomainExceptionWhenValueLenghtIsGreaterAllowed()
-    {
-        // Arrange
-        var random = new Randomizer();
-
-        // Act
-        Action action = () => _ = new Title(random.String(256));
-
-        // Assert
-        action.Should()
-            .Throw<DomainException>()
-            .WithMessage(DomainErrors.Title.LongerThanAllowed.ToString());
-    }
-
     [Theory]
     [InlineData("test title")]
     [InlineData("test")]
-    public void ImplicitOperatorShouldReturnToString(string text)
-    {
-        // Arrange
-        var title = new Title(text!);
-
-        // Act
-        string result = title;
-
-        // Assert
-        result.Should().Be(title.ToString());
-    }
-
-    [Theory]
-    [InlineData("test title")]
-    [InlineData("test")]
-    public void ToStringShouldReturnValueProperty(string text)
+    public void ToString_ReturnsValue(string text)
     {
         // Arrange, Act
         var title = new Title(text!);

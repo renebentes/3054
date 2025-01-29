@@ -8,26 +8,27 @@ public class CategoryTests
     private readonly Title _title = new("Category Title");
     private Category? _testCategory;
 
+    [Fact]
+    public void Category_CreateInstance_WhenTitleIsValid()
+    {
+        _testCategory = CreateCategory();
+
+        _testCategory.Title.Should().Be(_title);
+    }
+
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
     [InlineData(null)]
-    public void CreateTitleShouldReturnDomainExceptionWhenNullOrEmpty(string? title)
+    public void Category_ThrowsDomainException_WhenTitleIsInvalid(string? title)
     {
+        // Act
         Action action = () => _ = new Category(new Title(title!));
 
         // Assert
         action.Should()
             .Throw<DomainException>()
             .WithMessage(DomainErrors.Title.NullOrEmpty.ToString());
-    }
-
-    [Fact]
-    public void InitializesCategoryShouldHaveTitle()
-    {
-        _testCategory = CreateCategory();
-
-        _testCategory.Title.Should().Be(_title);
     }
 
     private Category CreateCategory()
