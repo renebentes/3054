@@ -1,6 +1,9 @@
+using Dima.Core;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
+    .AddCore()
     .AddPersistence(builder.Configuration);
 
 // Add services to the container.
