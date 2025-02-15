@@ -7,5 +7,6 @@ public enum ResultStatus
 {
     Ok,
     Failure,
-    Invalid
+    Invalid,
+    Created
 }

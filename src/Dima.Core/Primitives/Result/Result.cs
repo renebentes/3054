@@ -13,15 +13,20 @@ public class Result
     }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="Result"/> class with a specified status.
+    /// </summary>
+    /// <param name="status">The <see cref="ResultStatus"/></param>
+    protected Result(ResultStatus status)
+        => Status = status;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="Result"/> class with a specified status and a collection of errors.
     /// </summary>
     /// <param name="status">The <see cref="ResultStatus"/></param>
-    /// <param name="errors">The <see cref="Failure"/> collection</param>
+    /// <param name="errors">The <see cref="Error"/> collection</param>
     protected Result(ResultStatus status, IEnumerable<Error> errors)
-    {
-        Status = status;
-        Errors = errors;
-    }
+        : this(status)
+        => Errors = errors;
 
     /// <summary>
     /// Gets the collection of errors
@@ -29,14 +34,21 @@ public class Result
     public IEnumerable<Error> Errors { get; } = [];
 
     /// <summary>
-    /// Gets a value indicating whether the result is a success result.
+    /// Gets a value indicating whether the result is successful.
     /// </summary>
-    public bool IsSuccess => Status is ResultStatus.Ok;
+    public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.Created;
 
     /// <summary>
     /// Gets the status of the <see cref="Result"/>
     /// </summary>
     public ResultStatus Status { get; } = ResultStatus.Ok;
+
+    /// <summary>
+    /// Represents a successful result that occurred during the creation of a resource.
+    /// </summary>
+    /// <returns>A <see cref="Result"/> with status Created</returns>
+    public static Result Created()
+        => new(ResultStatus.Created);
 
     /// <summary>
     /// Represents a failure result that occurred during the operation with the specified error.
@@ -55,7 +67,7 @@ public class Result
         => new(ResultStatus.Failure, errors);
 
     /// <summary>
-    /// Represents an invalid result that occurred during the operation with a validaton error.
+    /// Represents an invalid result that occurred during the operation with a validation error.
     /// </summary>
     /// <param name="error">The validation <see cref="Error"/></param>
     /// <returns>A new instance of <see cref="Result"/> with the specified error</returns>

@@ -6,6 +6,18 @@ namespace Dima.UnitTests.Core.Primitives;
 public class ResultTests
 {
     [Fact]
+    public void Created_ShouldReturnResultWithCreatedStatus()
+    {
+        // Act
+        var result = Result.Created();
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        result.Status.Should().Be(ResultStatus.Created);
+        result.Errors.Should().BeEmpty();
+    }
+
+    [Fact]
     public void Failure_WithMultipleErrors_ShouldReturnResultWithFailureStatus()
     {
         // Arrange
