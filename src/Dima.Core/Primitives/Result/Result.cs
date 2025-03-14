@@ -3,12 +3,13 @@ namespace Dima.Core.Primitives.Result;
 /// <summary>
 /// Represents a result of operations with status information and possibly errors.
 /// </summary>
-public class Result
+public class Result : Result<Result>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Result"/> class.
     /// </summary>
     protected Result()
+        : base(default!)
     {
     }
 
@@ -17,7 +18,9 @@ public class Result
     /// </summary>
     /// <param name="status">The <see cref="ResultStatus"/>.</param>
     protected Result(ResultStatus status)
-        => Status = status;
+        : base(default!, status)
+    {
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Result"/> class with a specified status and a collection of errors.
@@ -25,23 +28,9 @@ public class Result
     /// <param name="status">The <see cref="ResultStatus"/>.</param>
     /// <param name="errors">The <see cref="Error"/> collection.</param>
     protected Result(ResultStatus status, IEnumerable<Error> errors)
-        : this(status)
-        => Errors = errors;
-
-    /// <summary>
-    /// Gets the collection of errors.
-    /// </summary>
-    public IEnumerable<Error> Errors { get; } = [];
-
-    /// <summary>
-    /// Gets a value indicating whether the result is successful.
-    /// </summary>
-    public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.Created;
-
-    /// <summary>
-    /// Gets the status of the <see cref="Result"/>.
-    /// </summary>
-    public ResultStatus Status { get; } = ResultStatus.Ok;
+        : base(default!, status, errors)
+    {
+    }
 
     /// <summary>
     /// Represents a successful result that occurred during the creation of a resource.
@@ -71,7 +60,7 @@ public class Result
     /// </summary>
     /// <param name="error">The validation <see cref="Error"/>.</param>
     /// <returns>A new instance of <see cref="Result"/> with the specified error.</returns>
-    public static Result Invalid(Error error)
+    public new static Result Invalid(Error error)
         => new(ResultStatus.Invalid, [error]);
 
     /// <summary>
@@ -79,7 +68,7 @@ public class Result
     /// </summary>
     /// <param name="errors">The list of validation <see cref="Error"/>s.</param>
     /// <returns>A new instance of <see cref="Result"/> with the specified error.</returns>
-    public static Result Invalid(IEnumerable<Error> errors)
+    public new static Result Invalid(IEnumerable<Error> errors)
         => new(ResultStatus.Invalid, errors);
 
     /// <summary>
