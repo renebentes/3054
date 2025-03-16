@@ -1,5 +1,4 @@
 using Dima.Core.Messaging;
-using Dima.Core.Primitives.Result;
 
 namespace Dima.Core.Categories.CreateCategory;
 
@@ -9,6 +8,4 @@ namespace Dima.Core.Categories.CreateCategory;
 /// <param name="Title">Gets the <see cref="Category"/> title</param>
 /// <param name="Description">Gets the <see cref="Category"/> description</param>
 public sealed record CreateCategoryRequest(string Title, string Description)
-    : IRequest<Result>
-{
-}
+    : IRequest<Result<long>>;

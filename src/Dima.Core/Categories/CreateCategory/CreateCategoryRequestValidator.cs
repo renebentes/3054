@@ -15,8 +15,8 @@ internal sealed class CreateCategoryRequestValidator
     {
         RuleFor(x => x.Title)
             .NotEmpty()
-            .WithMessage(ValidationErrors.CreateCategory.TitleIsRequired)
-            .MaximumLength(Title.MaxLength);
+            .MaximumLength(
+                Title.MaxLength);
 
         RuleFor(x => x.Description)
             .MaximumLength(Description.MaxLength);

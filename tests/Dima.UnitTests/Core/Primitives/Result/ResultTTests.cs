@@ -110,7 +110,7 @@ public class ResultTTests
         var result = Result<string>.Invalid(error);
 
         // Act
-        Action action = () => { var value = result.Value; };
+        Action action = () => _ = result.Value;
 
         // Assert
         action
@@ -123,7 +123,7 @@ public class ResultTTests
     public void ImplicitConversion_ShouldReturnSuccessResult()
     {
         // Arrange
-        var value = "Test Value";
+        const string value = "Test Value";
 
         // Act
         Result<string> result = value;

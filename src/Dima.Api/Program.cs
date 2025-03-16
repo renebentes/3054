@@ -1,17 +1,13 @@
+using Dima.Api;
+using Dima.Api.Common;
 using Dima.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddCore()
-    .AddPersistence(builder.Configuration);
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services
-    .AddEndpointsApiExplorer();
-builder.Services
-    .AddSwaggerGen();
+    .AddPersistence(builder.Configuration)
+    .AddApi();
 
 var app = builder.Build();
 
@@ -23,5 +19,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapEndpoints();
 
 await app.RunAsync();
