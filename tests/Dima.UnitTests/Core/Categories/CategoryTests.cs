@@ -1,5 +1,4 @@
 using Dima.Core.Categories;
-using Dima.Core.Primitives;
 
 namespace Dima.UnitTests.Core.Categories;
 

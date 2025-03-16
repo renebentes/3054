@@ -1,5 +1,3 @@
-using Dima.Core.Primitives;
-
 namespace Dima.UnitTests.Core.Primitives;
 
 public class ErrorTests
