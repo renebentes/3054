@@ -60,7 +60,7 @@ public class Result : Result<Result>
     /// </summary>
     /// <param name="error">The validation <see cref="Error"/>.</param>
     /// <returns>A new instance of <see cref="Result"/> with the specified error.</returns>
-    public new static Result Invalid(Error error)
+    public static new Result Invalid(Error error)
         => new(ResultStatus.Invalid, [error]);
 
     /// <summary>
@@ -68,7 +68,7 @@ public class Result : Result<Result>
     /// </summary>
     /// <param name="errors">The list of validation <see cref="Error"/>s.</param>
     /// <returns>A new instance of <see cref="Result"/> with the specified error.</returns>
-    public new static Result Invalid(IEnumerable<Error> errors)
+    public static new Result Invalid(IEnumerable<Error> errors)
         => new(ResultStatus.Invalid, errors);
 
     /// <summary>

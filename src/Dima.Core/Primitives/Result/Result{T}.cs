@@ -60,7 +60,6 @@ public class Result<TValue>
     /// <summary>
     /// Represents a successful result that occurred during the creation of a resource.
     /// </summary>
-    /// <typeparam name="TValue">The type of the resource created.</typeparam>
     /// <param name="value">The value of the resource created.</param>
     /// <returns>A <see cref="Result{TValue}"/> with status Created.</returns>
     public static Result<TValue> Created(TValue value)
@@ -83,7 +82,6 @@ public class Result<TValue>
     /// <summary>
     /// Represents an invalid result that occurred during the operation with a validation error.
     /// </summary>
-    /// <typeparam name="TValue">The type of the result value.</typeparam>
     /// <param name="error">The validation <see cref="Error"/>.</param>
     /// <returns>A new instance of <see cref="Result{TValue}"/> with the specified error.</returns>
     public static Result<TValue> Invalid(Error error)
@@ -92,7 +90,6 @@ public class Result<TValue>
     /// <summary>
     /// Represents an invalid result that occurred during the operation with a list of validation errors.
     /// </summary>
-    /// <typeparam name="TValue">The type of the result value.</typeparam>
     /// <param name="errors">The list of validation <see cref="Error"/>s.</param>
     /// <returns>A new instance of <see cref="Result{TValue}"/> with the specified errors.</returns>
     public static Result<TValue> Invalid(IEnumerable<Error> errors)
@@ -101,7 +98,6 @@ public class Result<TValue>
     /// <summary>
     /// Represents a successful result.
     /// </summary>
-    /// <typeparam name="TValue">The type of the result value.</typeparam>
     /// <param name="value">The result value.</param>
     /// <returns>A <see cref="Result{TValue}"/> with status Ok.</returns>
     public static Result<TValue> Success(TValue value)
