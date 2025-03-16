@@ -441,3 +441,15 @@ dotnet_diagnostic.IDE0090.severity = warning
 
 # IDE1006: Code-style naming rules
 dotnet_diagnostic.IDE1006.severity = warning
+
+# Roslynator Analyzers
+
+# RCS1194: Implement exception constructors
+dotnet_diagnostic.RCS1194.severity = none
+
+# Wrap argumrnts
+roslynator_refactoring.wrap_call_chain.enabled = true:warning
+
+# Wrap call chain
+roslynator_refactoring.wrap_arguments.enabled = true:warning
+
