@@ -1,5 +1,3 @@
-using Dima.Core.Messaging;
-
 namespace Dima.Core.Categories.CreateCategory;
 
 /// <summary>
