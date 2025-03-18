@@ -8,7 +8,7 @@ public sealed class Category : Entity
     /// <summary>
     /// Initializes a new instance of the <see cref="Category"/> class.
     /// </summary>
-    /// <param title="title">Category title</param>
+    /// <param name="title">Category title</param>
     public Category(Title title)
         => ChangeTitle(title);
 
@@ -18,25 +18,24 @@ public sealed class Category : Entity
     /// <remarks>
     /// Required by EF Core.
     /// </remarks>
-
     private Category()
     {
     }
 
     /// <summary>
-    /// Gets the category description
+    /// Gets the category description.
     /// </summary>
     public Description Description { get; private set; } = default!;
 
     /// <summary>
-    /// Gets the category title
+    /// Gets the category title.
     /// </summary>
     public Title Title { get; private set; } = default!;
 
     /// <summary>
-    /// Changes the category title
+    /// Changes the category title.
     /// </summary>
-    /// <param name="title">The <see cref="Title"/></param>
+    /// <param name="title">The <see cref="Title"/>.</param>
     public void ChangeTitle(Title title)
     {
         Ensure.NotEmpty(title, DomainErrors.Title.NullOrEmpty);
@@ -44,9 +43,9 @@ public sealed class Category : Entity
     }
 
     /// <summary>
-    /// Sets the category description
+    /// Sets the category description.
     /// </summary>
-    /// <param title="description">The category description</param>
-    public void SetDescription(Description description)
+    /// <param name="description">The category description.</param>
+    public void ChangeDescription(Description description)
         => Description = description;
 }
