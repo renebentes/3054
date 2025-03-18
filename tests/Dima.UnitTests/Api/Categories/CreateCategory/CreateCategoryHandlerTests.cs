@@ -70,7 +70,7 @@ public class CreateCategoryHandlerTests
     {
         // Arrange
         var createCategoryRequest = new CreateCategoryRequest(
-            title,
+            title!,
             description);
 
         // Act
