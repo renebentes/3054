@@ -450,9 +450,8 @@ dotnet_diagnostic.IDE1006.severity = warning
 # RCS1194: Implement exception constructors
 dotnet_diagnostic.RCS1194.severity = none
 
-# Wrap argumrnts
+# RR0048: sWrap arguments
 roslynator_refactoring.wrap_call_chain.enabled = true:warning
 
-# Wrap call chain
+# RR0051: Wrap call chain
 roslynator_refactoring.wrap_arguments.enabled = true:warning
-
