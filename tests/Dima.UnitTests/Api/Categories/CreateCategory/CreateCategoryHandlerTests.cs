@@ -3,22 +3,36 @@ using Dima.Api.Data;
 using Dima.Core.Categories;
 using Dima.Core.Categories.CreateCategory;
 using FluentValidation;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 
 namespace Dima.UnitTests.Api.Categories.CreateCategory;
 
-public class CreateCategoryHandlerTests
+public sealed class CreateCategoryHandlerTests
+    : IDisposable
 {
     private readonly DimaDbContext _context;
     private readonly CreateCategoryHandler _handler;
     private readonly IValidator<CreateCategoryRequest> _validator;
+    private readonly DbConnection _connection;
 
     public CreateCategoryHandlerTests()
     {
-        _context = Substitute.For<DimaDbContext>(new DbContextOptions<DimaDbContext>());
+        _connection = new SqliteConnection("Filename=:memory:");
+        _connection.Open();
+
+        var options = new DbContextOptionsBuilder<DimaDbContext>()
+            .UseSqlite(Guid.NewGuid().ToString())
+            .Options;
+
+        _context = Substitute.For<DimaDbContext>(options);
         _validator = new CreateCategoryRequestValidator();
         _handler = new CreateCategoryHandler(_context, _validator);
     }
+
+    public void Dispose()
+        => _connection.Dispose();
 
     [Theory]
     [InlineData("test title", "")]
