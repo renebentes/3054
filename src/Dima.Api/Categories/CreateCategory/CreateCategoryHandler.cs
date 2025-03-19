@@ -1,3 +1,4 @@
+using Dima.Api.Common;
 using Dima.Core.Categories;
 using Dima.Core.Categories.CreateCategory;
 using FluentValidation;
@@ -32,8 +33,7 @@ internal sealed class CreateCategoryHandler(
         {
             return Result.Invalid(
                 validatorResult
-                    .Errors
-                    .ToErrors()
+                    .AsErrors()
             );
         }
 

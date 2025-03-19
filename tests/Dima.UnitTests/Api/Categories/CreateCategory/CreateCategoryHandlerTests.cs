@@ -12,10 +12,9 @@ namespace Dima.UnitTests.Api.Categories.CreateCategory;
 public sealed class CreateCategoryHandlerTests
     : IDisposable
 {
+    private readonly DbConnection _connection;
     private readonly DimaDbContext _context;
     private readonly CreateCategoryHandler _handler;
-    private readonly IValidator<CreateCategoryRequest> _validator;
-    private readonly DbConnection _connection;
 
     public CreateCategoryHandlerTests()
     {
@@ -27,8 +26,8 @@ public sealed class CreateCategoryHandlerTests
             .Options;
 
         _context = Substitute.For<DimaDbContext>(options);
-        _validator = new CreateCategoryRequestValidator();
-        _handler = new CreateCategoryHandler(_context, _validator);
+        IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
+        _handler = new CreateCategoryHandler(_context, validator);
     }
 
     public void Dispose()
