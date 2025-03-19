@@ -20,10 +20,7 @@ public partial class InitialCreate : Migration
                 Description = table.Column<string>(type: "text", maxLength: 255, nullable: true),
                 Title = table.Column<string>(type: "text", maxLength: 80, nullable: false)
             },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Category", x => x.Id);
-            });
+            constraints: table => table.PrimaryKey("PK_Category", x => x.Id));
     }
 
     /// <inheritdoc />

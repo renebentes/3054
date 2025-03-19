@@ -4,7 +4,6 @@ using FluentValidation;
 
 namespace Dima.Api.Categories.CreateCategory;
 
-
 /// <summary>
 /// Handles the creation of a new category.
 /// </summary>
