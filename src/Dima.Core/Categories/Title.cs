@@ -37,6 +37,13 @@ public sealed record Title(string Value)
     public static implicit operator string(Title title)
         => title.ToString();
 
+    /// <summary>
+    /// Implicitly converts a <see langword="string"/> to a <see cref="Title"/> object.
+    /// </summary>
+    /// <param name="value">The string value to convert</param>
+    public static implicit operator Title(string value)
+        => new(value);
+
     /// <inheritdoc/>
     public override string ToString()
         => Value;

@@ -96,6 +96,21 @@ public class Result<TValue>
         => new(default!, ResultStatus.Invalid, errors);
 
     /// <summary>
+    /// Represents a result indicating that no content was found.
+    /// </summary>
+    /// <returns>A <see cref="Result{TValue}"/> with status NoContent.</returns>
+    public static Result<TValue> NoContent()
+        => new(default!, ResultStatus.NoContent);
+
+    /// <summary>
+    /// Represents a result indicating that the requested resource was not found.
+    /// </summary>
+    /// <param name="error">The <see cref="Error"/>.</param>
+    /// <returns>A <see cref="Result"/> with status NotFound.</returns>
+    public static Result<TValue> NotFound(Error error)
+        => new(default!, ResultStatus.NotFound, [error]);
+
+    /// <summary>
     /// Represents a successful result.
     /// </summary>
     /// <param name="value">The result value.</param>
