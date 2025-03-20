@@ -20,8 +20,11 @@ public class Result<TValue>
     /// </summary>
     /// <param name="value">The result value.</param>
     /// <param name="status">The result status.</param>
-    protected Result(TValue value, ResultStatus status)
-        : this(value) => Status = status;
+    protected Result(
+        TValue value,
+        ResultStatus status)
+        : this(value)
+        => Status = status;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Result{TValue}"/> class.
@@ -29,8 +32,12 @@ public class Result<TValue>
     /// <param name="value">The result value.</param>
     /// <param name="status">The result status.</param>
     /// <param name="errors">The collection of errors.</param>
-    protected Result(TValue value, ResultStatus status, IEnumerable<Error> errors)
-        : this(value, status) => Errors = errors;
+    protected Result(
+        TValue value,
+        ResultStatus status,
+        IEnumerable<Error> errors)
+        : this(value, status)
+        => Errors = errors;
 
     /// <summary>
     /// Gets the collection of errors.
@@ -64,20 +71,6 @@ public class Result<TValue>
     /// <returns>A <see cref="Result{TValue}"/> with status Created.</returns>
     public static Result<TValue> Created(TValue value)
         => new(value, ResultStatus.Created);
-
-    /// <summary>
-    /// Implicitly converts a value to a successful <see cref="Result{TValue}"/>.
-    /// </summary>
-    /// <param name="value">The value to convert.</param>
-    public static implicit operator Result<TValue>(TValue value)
-        => Success(value);
-
-    /// <summary>
-    /// Implicitly converts a <see cref="Result"/> to a <see cref="Result{TValue}"/>.
-    /// </summary>
-    /// <param name="result">The result to convert.</param>
-    public static implicit operator Result<TValue>(Result result)
-        => new(default!, result.Status, result.Errors);
 
     /// <summary>
     /// Represents an invalid result that occurred during the operation with a validation error.
@@ -117,4 +110,18 @@ public class Result<TValue>
     /// <returns>A <see cref="Result{TValue}"/> with status Ok.</returns>
     public static Result<TValue> Success(TValue value)
         => new(value, ResultStatus.Ok);
+
+    /// <summary>
+    /// Implicitly converts a value to a successful <see cref="Result{TValue}"/>.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    public static implicit operator Result<TValue>(TValue value)
+        => Success(value);
+
+    /// <summary>
+    /// Implicitly converts a <see cref="Result"/> to a <see cref="Result{TValue}"/>.
+    /// </summary>
+    /// <param name="result">The result to convert.</param>
+    public static implicit operator Result<TValue>(Result result)
+        => new(default!, result.Status, result.Errors);
 }
