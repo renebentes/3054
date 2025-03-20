@@ -1,3 +1,4 @@
+using Dima.Core.Categories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Data;
@@ -20,6 +21,14 @@ public static class DependencyInjection
 
         services.AddDbContext<DimaDbContext>(options =>
             options.UseNpgsql(connectionString));
+
+        services.AddRepositories();
+        return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
         return services;
     }
 }
