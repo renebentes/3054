@@ -1,37 +1,29 @@
 using Dima.Api.Categories.CreateCategory;
-using Dima.Api.Data;
 using Dima.Core.Categories;
 using Dima.Core.Categories.CreateCategory;
 using FluentValidation;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
 
-namespace Dima.UnitTests.Api.Categories.CreateCategory;
+namespace Dima.UnitTests.Api.Categories;
 
 public sealed class CreateCategoryHandlerTests
-    : IDisposable
 {
-    private readonly DbConnection _connection;
-    private readonly DimaDbContext _context;
+    private readonly CancellationToken _cancellationToken;
     private readonly CreateCategoryHandler _handler;
+    private readonly ICategoryRepository _repository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CreateCategoryHandlerTests()
     {
-        _connection = new SqliteConnection("Filename=:memory:");
-        _connection.Open();
-
-        var options = new DbContextOptionsBuilder<DimaDbContext>()
-            .UseSqlite(Guid.NewGuid().ToString())
-            .Options;
-
-        _context = Substitute.For<DimaDbContext>(options);
+        _cancellationToken = TestContext.Current.CancellationToken;
+        _repository = Substitute.For<ICategoryRepository>();
+        _unitOfWork = Substitute.For<IUnitOfWork>();
         IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
-        _handler = new CreateCategoryHandler(_context, validator);
-    }
 
-    public void Dispose()
-        => _connection.Dispose();
+        _handler = new CreateCategoryHandler(
+            _repository,
+            _unitOfWork,
+            validator);
+    }
 
     [Theory]
     [InlineData("test title", "")]
@@ -50,15 +42,16 @@ public sealed class CreateCategoryHandlerTests
         // Act
         var result = await _handler.HandleAsync(
             createCategoryRequest,
-            CancellationToken.None);
+            _cancellationToken);
 
         // Assert
-        await _context
+        await _repository
             .Received(1)
-            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
-        await _context
+            .AddAsync(Arg.Any<Category>(), _cancellationToken);
+
+        await _unitOfWork
             .Received(1)
-            .SaveChangesAsync(Arg.Any<CancellationToken>());
+            .SaveChangesAsync(_cancellationToken);
 
         result
             .Should()
@@ -89,7 +82,7 @@ public sealed class CreateCategoryHandlerTests
         // Act
         var result = await _handler.HandleAsync(
             createCategoryRequest,
-            CancellationToken.None);
+            _cancellationToken);
 
         // Assert
         result
