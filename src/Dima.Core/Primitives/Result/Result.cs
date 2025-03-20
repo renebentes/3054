@@ -72,6 +72,21 @@ public class Result : Result<Result>
         => new(ResultStatus.Invalid, errors);
 
     /// <summary>
+    /// Represents a result indicating that there is no content.
+    /// </summary>
+    /// <returns>A <see cref="Result"/> with status NoContent.</returns>
+    public static new Result NoContent()
+        => new(ResultStatus.NoContent);
+
+    /// <summary>
+    /// Represents a result indicating that the requested resource was not found.
+    /// </summary>
+    /// <param name="error">The <see cref="Error"/>.</param>
+    /// <returns>A <see cref="Result"/> with status NotFound.</returns>
+    public static new Result NotFound(Error error)
+        => new(ResultStatus.NotFound, [error]);
+
+    /// <summary>
     /// Represents a successful operation without return type.
     /// </summary>
     /// <returns>A <see cref="Result"/>.</returns>

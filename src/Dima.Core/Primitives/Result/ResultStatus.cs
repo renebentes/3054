@@ -8,5 +8,7 @@ public enum ResultStatus
     Ok,
     Failure,
     Invalid,
-    Created
+    Created,
+    NotFound,
+    NoContent
 }
