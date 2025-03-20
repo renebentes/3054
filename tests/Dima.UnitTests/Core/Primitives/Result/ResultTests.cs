@@ -1,3 +1,5 @@
+using DerivedResult = Dima.Core.Primitives.Result.Result;
+
 namespace Dima.UnitTests.Core.Primitives.Result;
 
 public class ResultTests
@@ -6,16 +8,19 @@ public class ResultTests
     public void Created_ShouldReturnResultWithCreatedStatus()
     {
         // Act
-        var result = Dima.Core.Primitives.Result.Result.Created();
+        var result = DerivedResult.Created();
 
         // Assert
-        result.IsSuccess
+        result
+            .IsSuccess
             .Should()
             .BeTrue();
-        result.Status
+        result
+            .Status
             .Should()
             .Be(ResultStatus.Created);
-        result.Errors
+        result
+            .Errors
             .Should()
             .BeEmpty();
     }
@@ -30,16 +35,19 @@ public class ResultTests
         };
 
         // Act
-        var result = Dima.Core.Primitives.Result.Result.Failure(errors);
+        var result = DerivedResult.Failure(errors);
 
         // Assert
-        result.IsSuccess
+        result
+            .IsSuccess
             .Should()
             .BeFalse();
-        result.Status
+        result
+            .Status
             .Should()
             .Be(ResultStatus.Failure);
-        result.Errors
+        result
+            .Errors
             .Should()
             .BeEquivalentTo(errors);
     }
@@ -51,17 +59,20 @@ public class ResultTests
         var error = new Error("error", "error message");
 
         // Act
-        var result = Dima.Core.Primitives.Result.Result.Failure(error);
+        var result = DerivedResult.Failure(error);
 
         // Assert
-        result.IsSuccess
+        result
+            .IsSuccess
             .Should()
             .BeFalse();
-        result.Status
+        result
+            .Status
             .Should()
             .Be(ResultStatus.Failure);
 
-        result.Errors
+        result
+            .Errors
             .Should()
             .ContainSingle().Which
             .Should()
@@ -78,16 +89,19 @@ public class ResultTests
         };
 
         // Act
-        var result = Dima.Core.Primitives.Result.Result.Invalid(errors);
+        var result = DerivedResult.Invalid(errors);
 
         // Assert
-        result.IsSuccess
+        result
+            .IsSuccess
             .Should()
             .BeFalse();
-        result.Status
+        result
+            .Status
             .Should()
             .Be(ResultStatus.Invalid);
-        result.Errors
+        result
+            .Errors
             .Should()
             .BeEquivalentTo(errors);
     }
@@ -99,16 +113,19 @@ public class ResultTests
         var error = new Error("invalid", "invalid message");
 
         // Act
-        var result = Dima.Core.Primitives.Result.Result.Invalid(error);
+        var result = DerivedResult.Invalid(error);
 
         // Assert
-        result.IsSuccess
+        result
+            .IsSuccess
             .Should()
             .BeFalse();
-        result.Status
+        result
+            .Status
             .Should()
             .Be(ResultStatus.Invalid);
-        result.Errors
+        result
+            .Errors
             .Should()
             .ContainSingle().Which
             .Should()
@@ -116,19 +133,43 @@ public class ResultTests
     }
 
     [Fact]
+    public void NoContent_ShouldReturnResultWithNoContentStatus()
+    {
+        // Act
+        var result = DerivedResult.NoContent();
+
+        // Assert
+        result
+            .IsSuccess
+            .Should()
+            .BeTrue();
+        result
+            .Status
+            .Should()
+            .Be(ResultStatus.NoContent);
+        result
+            .Errors
+            .Should()
+            .BeEmpty();
+    }
+
+    [Fact]
     public void Success_ShouldReturnResultWithOkStatus()
     {
         // Act
-        var result = Dima.Core.Primitives.Result.Result.Success();
+        var result = DerivedResult.Success();
 
         // Assert
-        result.IsSuccess
+        result
+            .IsSuccess
             .Should()
             .BeTrue();
-        result.Status
+        result
+            .Status
             .Should()
             .Be(ResultStatus.Ok);
-        result.Errors
+        result
+            .Errors
             .Should()
             .BeEmpty();
     }

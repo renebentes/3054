@@ -47,7 +47,7 @@ public class Result<TValue>
     /// <summary>
     /// Gets a value indicating whether the result is successful.
     /// </summary>
-    public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.Created;
+    public bool IsSuccess => Status is ResultStatus.Ok or ResultStatus.Created or ResultStatus.NoContent;
 
     /// <summary>
     /// Gets the status of the <see cref="Result"/>.
