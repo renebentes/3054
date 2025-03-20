@@ -5,6 +5,16 @@ namespace Dima.Core.Categories;
 /// </summary>
 public static partial class DomainErrors
 {
+
+    /// <summary>
+    /// Contains the category errors.
+    /// </summary>
+    public static class Category
+    {
+        public static Error NotFound => new(
+            "Category.NotFound",
+            "The category with the specified identifier was not found.");
+    }
     /// <summary>
     /// Contains the description errors/>
     /// </summary>
