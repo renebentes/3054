@@ -11,10 +11,12 @@ namespace Dima.Api.Categories.UpdateCategory;
 /// <remarks>
 /// Initializes a new instance of the <see cref="UpdateCategoryHandler"/> class.
 /// </remarks>
-/// <param name="context">The database context.</param>
+/// <param name="repository">The category repository.</param>
+/// <param name="unitOfWork">The unit of work.</param>
 /// <param name="validator">The validator for the update category request.</param>
 public class UpdateCategoryHandler(
-    DimaDbContext context,
+    ICategoryRepository repository,
+    IUnitOfWork unitOfWork,
     IValidator<UpdateCategoryRequest> validator)
     : IUpdateCategoryHandler
 {
@@ -40,9 +42,8 @@ public class UpdateCategoryHandler(
             );
         }
 
-        var category = await context.Categories
-            .FindAsync(
-            [request.Id],
+        var category = await repository.GetByIdAsync(
+            request.Id,
             cancellationToken: cancellationToken);
 
         if (category is null)
@@ -53,8 +54,8 @@ public class UpdateCategoryHandler(
         category.ChangeTitle(request.Title);
         category.ChangeDescription(request.Description);
 
-        context.Update(category);
-        await context.SaveChangesAsync(cancellationToken);
+        repository.Update(category);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.NoContent();
     }
