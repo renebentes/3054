@@ -2,7 +2,7 @@ using Dima.Core.Categories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Dima.Api.Data.Configurations;
+namespace Dima.Api.Data.Categories;
 
 /// <summary>
 /// Represents the configuration for the <see cref="Category"/> entity.

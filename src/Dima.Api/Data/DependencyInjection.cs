@@ -1,3 +1,4 @@
+using Dima.Api.Data.Categories;
 using Dima.Core.Categories;
 using Microsoft.EntityFrameworkCore;
 
