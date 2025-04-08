@@ -33,6 +33,13 @@ public sealed class Category : Entity
     public Title Title { get; private set; } = default!;
 
     /// <summary>
+    /// Sets the category description.
+    /// </summary>
+    /// <param name="description">The category description.</param>
+    public void ChangeDescription(Description description)
+        => Description = description;
+
+    /// <summary>
     /// Changes the category title.
     /// </summary>
     /// <param name="title">The <see cref="Title"/>.</param>
@@ -41,11 +48,4 @@ public sealed class Category : Entity
         Ensure.NotEmpty(title, DomainErrors.Title.NullOrEmpty);
         Title = title;
     }
-
-    /// <summary>
-    /// Sets the category description.
-    /// </summary>
-    /// <param name="description">The category description.</param>
-    public void ChangeDescription(Description description)
-        => Description = description;
 }
