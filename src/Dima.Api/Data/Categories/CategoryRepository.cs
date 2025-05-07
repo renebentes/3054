@@ -15,16 +15,13 @@ public class CategoryRepository(DimaDbContext context)
             category,
             cancellationToken);
 
-    public async Task<Category> GetByIdAsync(
+    public async Task<Category?> GetByIdAsync(
         long id,
         CancellationToken cancellationToken = default)
-#pragma warning disable CS8603 // Possible null reference return.
         => await context
         .Categories
-        .FindAsync(
-            [id],
-            cancellationToken);
-#pragma warning restore CS8603 // Possible null reference return.
+        .Where(c => c.Id == id)
+        .SingleOrDefaultAsync(cancellationToken);
 
     public void Update(Category category)
         => context.Categories.Update(category);
