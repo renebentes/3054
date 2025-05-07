@@ -18,8 +18,11 @@ public interface ICategoryRepository
     /// </summary>
     /// <param name="id">The identifier of the category to retrieve.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the category if found; otherwise, null.</returns>
-    Task<Category> GetByIdAsync(long id, CancellationToken cancellationToken = default);
+    /// <returns>
+    /// A task that represents the asynchronous operation.
+    /// The task result contains the category if found; otherwise, null.
+    /// </returns>
+    Task<Category?> GetByIdAsync(long id, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing category in the data store.
