@@ -3,7 +3,7 @@ namespace Dima.Core.Categories;
 /// <summary>
 /// Provides methods to interact with the Category data store.
 /// </summary>
-public interface ICategoryRepository
+public interface ICategoryRepository : IRepository
 {
     /// <summary>
     /// Asynchronously adds a new category to the data store.

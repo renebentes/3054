@@ -12,11 +12,9 @@ namespace Dima.Api.Categories.UpdateCategory;
 /// Initializes a new instance of the <see cref="UpdateCategoryHandler"/> class.
 /// </remarks>
 /// <param name="repository">The category repository.</param>
-/// <param name="unitOfWork">The unit of work.</param>
 /// <param name="validator">The validator for the update category request.</param>
 public class UpdateCategoryHandler(
     ICategoryRepository repository,
-    IUnitOfWork unitOfWork,
     IValidator<UpdateCategoryRequest> validator)
     : IUpdateCategoryHandler
 {
@@ -55,7 +53,9 @@ public class UpdateCategoryHandler(
         category.ChangeDescription(request.Description);
 
         repository.Update(category);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
+        await repository
+            .UnitOfWork
+            .SaveChangesAsync(cancellationToken);
 
         return Result.NoContent();
     }

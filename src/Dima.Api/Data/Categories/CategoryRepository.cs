@@ -1,4 +1,5 @@
 using Dima.Core.Categories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Data.Categories;
 
@@ -6,6 +7,8 @@ namespace Dima.Api.Data.Categories;
 public class CategoryRepository(DimaDbContext context)
     : ICategoryRepository
 {
+    public IUnitOfWork UnitOfWork => context;
+
     public async Task AddAsync(
         Category category,
         CancellationToken cancellationToken = default)
