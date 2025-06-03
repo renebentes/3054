@@ -1,4 +1,5 @@
 using Dima.Api.Categories.CreateCategory;
+using Dima.Api.Categories.UpdateCategory;
 
 namespace Dima.Api.Categories;
 
@@ -20,7 +21,8 @@ internal static class CategoryEndpoints
     {
         app.MapGroup("/v1/categories")
             .WithTags("Categories")
-            .MapCreateCategoryEndpoint();
+            .MapCreateCategoryEndpoint()
+            .MapUpdateCategoryEndpoint();
 
         return app;
     }
