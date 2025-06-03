@@ -27,6 +27,11 @@ public static class DependencyInjection
         return services;
     }
 
+    /// <summary>
+    /// Registers repositories with the dependency injection container.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/> to which the repository services will be added.</param>
+    /// <returns>The updated <see cref="IServiceCollection"/> instance.</returns>
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<ICategoryRepository, CategoryRepository>();
