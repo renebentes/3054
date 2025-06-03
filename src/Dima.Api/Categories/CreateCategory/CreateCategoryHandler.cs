@@ -9,11 +9,9 @@ namespace Dima.Api.Categories.CreateCategory;
 /// Handles the creation of a new category.
 /// </summary>
 /// <param name="repository">The category repository.</param>
-/// <param name="unitOfWork">The unit of work.</param>
 /// <param name="validator">The validator for the create category request.</param>
 internal sealed class CreateCategoryHandler(
     ICategoryRepository repository,
-    IUnitOfWork unitOfWork,
     IValidator<CreateCategoryRequest> validator)
     : ICreateCategoryHandler
 {
@@ -44,7 +42,9 @@ internal sealed class CreateCategoryHandler(
         category.ChangeDescription(request.Description);
 
         await repository.AddAsync(category, cancellationToken);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
+        await repository
+            .UnitOfWork
+            .SaveChangesAsync(cancellationToken);
 
         return Result<long>.Created(category.Id);
     }
