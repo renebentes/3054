@@ -5,11 +5,3 @@ updates:
     schedule:
       interval: daily
     open-pull-requests-limit: 10
-    assignees:
-      - "renebentes"
-    reviewers:
-      - "renebentes"
-      - "copilot"
-    commit-message:
-      prefix: "build"
-      include: "scope"
