@@ -3,5 +3,8 @@ updates:
   - package-ecosystem: nuget
     directory: "/"
     schedule:
-      interval: daily
+      interval: weekly
     open-pull-requests-limit: 10
+    commit-message:
+      prefix: "build"
+      include: "scope"
