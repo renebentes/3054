@@ -1,31 +1,9 @@
+using DerivedResult = Dima.Core.Primitives.Result.Result;
+
 namespace Dima.UnitTests.Core.Primitives.Result;
 
 public class ResultTTests
 {
-    [Fact]
-    public void Success_ShouldHaveStatusOk()
-    {
-        // Arrange
-        const string value = "Test Value";
-
-        // Act
-        var result = Result<string>.Success(value);
-
-        // Assert
-        result
-            .IsSuccess
-            .Should()
-            .BeTrue();
-        result
-            .Status
-            .Should()
-            .Be(ResultStatus.Ok);
-        result
-            .Value
-            .Should()
-            .Be(value);
-    }
-
     [Fact]
     public void Created_ShouldHaveStatusCreated()
     {
@@ -44,6 +22,60 @@ public class ResultTTests
             .Status
             .Should()
             .Be(ResultStatus.Created);
+        result
+            .Value
+            .Should()
+            .Be(value);
+    }
+
+    [Fact]
+    public void ImplicitConversionFromResult_ShouldReturnResultWithSameStatusAndErrors()
+    {
+        // Arrange
+        var errors = new List<Error>
+        {
+            new("Error Code 1", "Error Message 1"),
+            new("Error Code 2", "Error Message 2")
+        };
+
+        var result = DerivedResult.Failure(errors);
+
+        // Act
+        Result<string> resultWithErrors = result;
+
+        // Assert
+        resultWithErrors
+            .IsSuccess
+            .Should()
+            .BeFalse();
+        resultWithErrors
+            .Status
+            .Should()
+            .Be(result.Status);
+        resultWithErrors
+            .Errors
+            .Should()
+            .BeEquivalentTo(errors);
+    }
+
+    [Fact]
+    public void ImplicitConversion_ShouldReturnSuccessResult()
+    {
+        // Arrange
+        const string value = "Test Value";
+
+        // Act
+        Result<string> result = value;
+
+        // Assert
+        result
+            .IsSuccess
+            .Should()
+            .BeTrue();
+        result
+            .Status
+            .Should()
+            .Be(ResultStatus.Ok);
         result
             .Value
             .Should()
@@ -103,30 +135,33 @@ public class ResultTTests
     }
 
     [Fact]
-    public void Value_ShouldThrowException_WhenResultIsFailure()
+    public void NoContent_ShouldReturnResultWithNoContentStatus()
     {
-        // Arrange
-        var error = new Error("Error Code", "Error Message");
-        var result = Result<string>.Invalid(error);
-
         // Act
-        Action action = () => _ = result.Value;
+        var result = Result<int>.NoContent();
 
         // Assert
-        action
+        result
+            .IsSuccess
             .Should()
-            .Throw<InvalidOperationException>()
-            .WithMessage("Cannot access value for a failure result.");
+            .BeTrue();
+        result
+            .Status
+            .Should()
+            .Be(ResultStatus.NoContent);
+        result
+            .Errors
+            .Should()
+            .BeEmpty();
     }
-
     [Fact]
-    public void ImplicitConversion_ShouldReturnSuccessResult()
+    public void Success_ShouldHaveStatusOk()
     {
         // Arrange
         const string value = "Test Value";
 
         // Act
-        Result<string> result = value;
+        var result = Result<string>.Success(value);
 
         // Assert
         result
@@ -144,32 +179,19 @@ public class ResultTTests
     }
 
     [Fact]
-    public void ImplicitConversionFromResult_ShouldReturnResultWithSameStatusAndErrors()
+    public void Value_ShouldThrowException_WhenResultIsFailure()
     {
         // Arrange
-        var errors = new List<Error>
-        {
-            new("Error Code 1", "Error Message 1"),
-            new("Error Code 2", "Error Message 2")
-        };
-
-        var result = Dima.Core.Primitives.Result.Result.Failure(errors);
+        var error = new Error("Error Code", "Error Message");
+        var result = Result<string>.Invalid(error);
 
         // Act
-        Result<string> resultWithErrors = result;
+        Action action = () => _ = result.Value;
 
         // Assert
-        resultWithErrors
-            .IsSuccess
+        action
             .Should()
-            .BeFalse();
-        resultWithErrors
-            .Status
-            .Should()
-            .Be(result.Status);
-        resultWithErrors
-            .Errors
-            .Should()
-            .BeEquivalentTo(errors);
+            .Throw<InvalidOperationException>()
+            .WithMessage("Cannot access value for a failure result.");
     }
 }

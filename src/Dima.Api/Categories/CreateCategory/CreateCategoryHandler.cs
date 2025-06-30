@@ -1,14 +1,33 @@
+using Dima.Api.Common;
 using Dima.Core.Categories;
 using Dima.Core.Categories.CreateCategory;
 using FluentValidation;
 
 namespace Dima.Api.Categories.CreateCategory;
 
+/// <summary>
+/// Handles the creation of a new category.
+/// </summary>
+/// <remarks>
+/// This handler validates the incoming <see cref="CreateCategoryRequest"/>, creates a new <see cref="Category"/> entity,
+/// persists it to the database, and returns the ID of the created category.
+/// </remarks>
+/// <param name="context">The application database context.</param>
+/// <param name="validator">The validator for the create category request.</param>
 internal sealed class CreateCategoryHandler(
-    DimaDbContext context,
+    IApplicationDbContext context,
     IValidator<CreateCategoryRequest> validator)
     : ICreateCategoryHandler
 {
+    /// <summary>
+    /// Handles the create category request asynchronously.
+    /// </summary>
+    /// <param name="request">The create category request.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>
+    /// A <see cref="Result{T}"/> containing the ID of the created category if successful,
+    /// or validation errors if the request is invalid.
+    /// </returns>
     public async Task<Result<long>> HandleAsync(
         CreateCategoryRequest request,
         CancellationToken cancellationToken)
@@ -21,16 +40,15 @@ internal sealed class CreateCategoryHandler(
         {
             return Result.Invalid(
                 validatorResult
-                    .Errors
-                    .ToErrors()
+                    .AsErrors()
             );
         }
 
         var title = new Title(request.Title);
         var category = new Category(title);
-        category.SetDescription(request.Description);
+        category.ChangeDescription(request.Description);
 
-        await context.AddAsync(category, cancellationToken);
+        await context.Categories.AddAsync(category, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
 
         return Result<long>.Created(category.Id);

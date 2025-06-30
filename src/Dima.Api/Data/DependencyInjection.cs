@@ -20,6 +20,9 @@ public static class DependencyInjection
 
         services.AddDbContext<DimaDbContext>(options =>
             options.UseNpgsql(connectionString));
+
+        services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<DimaDbContext>());
+
         return services;
     }
 }

@@ -1,7 +1,6 @@
-using Dima.Core.Messaging;
-
 namespace Dima.Core.Categories.CreateCategory;
 
-public interface ICreateCategoryHandler : IRequestHandler<CreateCategoryRequest, Result<long>>
-{
-}
+/// <summary>
+/// Defines a handler for creating a category.
+/// </summary>
+public interface ICreateCategoryHandler : IRequestHandler<CreateCategoryRequest, Result<long>>;

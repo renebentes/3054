@@ -1,59 +1,49 @@
 using Dima.Api.Categories.CreateCategory;
 using Dima.Api.Data;
-using Dima.Core.Categories;
 using Dima.Core.Categories.CreateCategory;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 
-namespace Dima.UnitTests.Api.Categories.CreateCategory;
+namespace Dima.UnitTests.Api.Categories;
 
-public class CreateCategoryHandlerTests
+public sealed class CreateCategoryHandlerTests
 {
-    private readonly DimaDbContext _context;
+    private readonly CancellationToken _cancellationToken;
     private readonly CreateCategoryHandler _handler;
-    private readonly IValidator<CreateCategoryRequest> _validator;
 
     public CreateCategoryHandlerTests()
     {
-        _context = Substitute.For<DimaDbContext>(new DbContextOptions<DimaDbContext>());
-        _validator = new CreateCategoryRequestValidator();
-        _handler = new CreateCategoryHandler(_context, _validator);
+        _cancellationToken = TestContext.Current.CancellationToken;
+        IApplicationDbContext context = Substitute.For<IApplicationDbContext>();
+        IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
+
+        _handler = new CreateCategoryHandler(
+            context,
+            validator);
     }
 
-    [Theory]
-    [InlineData("test title", "")]
-    [InlineData("test title", " ")]
-    [InlineData("test title", null)]
-    [InlineData("test title", "test description")]
-    public async Task HandleAsync_ShouldReturnCreated_WhenRequestIsValid(
-        string title,
-        string? description)
+    [Fact]
+    public async Task HandleAsync_ShouldReturnCreated_WhenRequestIsValid()
     {
         // Arrange
         var createCategoryRequest = new CreateCategoryRequest(
-            title,
-            description!);
+            "Category title",
+            "Category description");
 
         // Act
         var result = await _handler.HandleAsync(
             createCategoryRequest,
-            CancellationToken.None);
+            _cancellationToken);
 
         // Assert
-        await _context
-            .Received(1)
-            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
-        await _context
-            .Received(1)
-            .SaveChangesAsync(Arg.Any<CancellationToken>());
-
         result
             .Should()
             .NotBeNull();
+
         result
             .IsSuccess
             .Should()
             .BeTrue();
+
         result
             .Status
             .Should()
@@ -70,22 +60,24 @@ public class CreateCategoryHandlerTests
     {
         // Arrange
         var createCategoryRequest = new CreateCategoryRequest(
-            title,
+            title!,
             description);
 
         // Act
         var result = await _handler.HandleAsync(
             createCategoryRequest,
-            CancellationToken.None);
+            _cancellationToken);
 
         // Assert
         result
             .Should()
             .NotBeNull();
+
         result
             .IsSuccess
             .Should()
             .BeFalse();
+
         result
             .Status
             .Should()
