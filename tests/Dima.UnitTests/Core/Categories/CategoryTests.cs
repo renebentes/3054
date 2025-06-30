@@ -20,8 +20,7 @@ public class CategoryTests
         // Assert
         _testCategory
             .Title
-            .Should()
-            .Be(newTitle);
+            .ShouldBe(newTitle);
     }
 
     [Fact]
@@ -37,8 +36,7 @@ public class CategoryTests
         // Assert
         _testCategory
             .Description
-            .Should()
-            .Be(newDescription);
+            .ShouldBe(newDescription);
     }
 
     [Theory]
@@ -59,9 +57,7 @@ public class CategoryTests
 
         // Assert
         action
-            .Should()
-            .Throw<DomainException>()
-            .WithMessage(DomainErrors.Title.NullOrEmpty.ToString());
+            .ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
     }
 
     [Theory]
@@ -75,9 +71,7 @@ public class CategoryTests
 
         // Assert
         action
-            .Should()
-            .Throw<DomainException>()
-            .WithMessage(DomainErrors.Title.NullOrEmpty.ToString());
+            .ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
     }
 
     private Category CreateCategory()

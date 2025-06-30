@@ -12,7 +12,7 @@ public class ErrorTests
         string code = error;
 
         // Assert
-        code.Should().Be(error.Code);
+        code.ShouldBe(error.Code);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class ErrorTests
         string result = error.ToString();
 
         // Assert
-        result.Should().Be(error.Message);
+        result.ShouldBe(error.Message);
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class ErrorTests
         var error2 = new Error("Error.500", "Internal Server Error");
 
         // Act & Assert
-        error1.Should().NotBe(error2);
+        error1.ShouldNotBe(error2);
     }
 
     [Fact]
@@ -47,6 +47,6 @@ public class ErrorTests
         var error2 = new Error("error", "Error description");
 
         // Act & Assert
-        error1.Should().Be(error2);
+        error1.ShouldBe(error2);
     }
 }

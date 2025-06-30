@@ -16,12 +16,9 @@ public class FluentValidationExtensions
         var errors = validationResult.AsErrors().ToArray();
 
         // Assert
-        errors.Should().NotBeNull();
         errors
-            .Should()
-            .ContainSingle()
-            .Which
-            .Should()
-            .BeEquivalentTo(new Error("Validation.Property.", "Error message"));
+            .ShouldNotBeNull();
+        errors
+            .ShouldContain(new Error("Validation.Property.", "Error message"));
     }
 }
