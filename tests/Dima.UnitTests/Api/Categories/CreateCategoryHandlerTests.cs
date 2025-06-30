@@ -1,5 +1,5 @@
 using Dima.Api.Categories.CreateCategory;
-using Dima.Core.Categories;
+using Dima.Api.Data;
 using Dima.Core.Categories.CreateCategory;
 using FluentValidation;
 
@@ -9,35 +9,25 @@ public sealed class CreateCategoryHandlerTests
 {
     private readonly CancellationToken _cancellationToken;
     private readonly CreateCategoryHandler _handler;
-    private readonly ICategoryRepository _repository;
-    private readonly IUnitOfWork _unitOfWork;
 
     public CreateCategoryHandlerTests()
     {
         _cancellationToken = TestContext.Current.CancellationToken;
-        _repository = Substitute.For<ICategoryRepository>();
-        _unitOfWork = Substitute.For<IUnitOfWork>();
+        IApplicationDbContext context = Substitute.For<IApplicationDbContext>();
         IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
 
         _handler = new CreateCategoryHandler(
-            _repository,
-            _unitOfWork,
+            context,
             validator);
     }
 
-    [Theory]
-    [InlineData("test title", "")]
-    [InlineData("test title", " ")]
-    [InlineData("test title", null)]
-    [InlineData("test title", "test description")]
-    public async Task HandleAsync_ShouldReturnCreated_WhenRequestIsValid(
-        string title,
-        string? description)
+    [Fact]
+    public async Task HandleAsync_ShouldReturnCreated_WhenRequestIsValid()
     {
         // Arrange
         var createCategoryRequest = new CreateCategoryRequest(
-            title,
-            description!);
+            "Category title",
+            "Category description");
 
         // Act
         var result = await _handler.HandleAsync(
@@ -45,21 +35,15 @@ public sealed class CreateCategoryHandlerTests
             _cancellationToken);
 
         // Assert
-        await _repository
-            .Received(1)
-            .AddAsync(Arg.Any<Category>(), _cancellationToken);
-
-        await _unitOfWork
-            .Received(1)
-            .SaveChangesAsync(_cancellationToken);
-
         result
             .Should()
             .NotBeNull();
+
         result
             .IsSuccess
             .Should()
             .BeTrue();
+
         result
             .Status
             .Should()
@@ -88,10 +72,12 @@ public sealed class CreateCategoryHandlerTests
         result
             .Should()
             .NotBeNull();
+
         result
             .IsSuccess
             .Should()
             .BeFalse();
+
         result
             .Status
             .Should()

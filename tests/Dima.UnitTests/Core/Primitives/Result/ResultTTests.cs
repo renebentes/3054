@@ -4,7 +4,6 @@ namespace Dima.UnitTests.Core.Primitives.Result;
 
 public class ResultTTests
 {
-
     [Fact]
     public void Created_ShouldHaveStatusCreated()
     {

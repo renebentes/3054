@@ -8,10 +8,14 @@ namespace Dima.Api.Categories.CreateCategory;
 /// <summary>
 /// Handles the creation of a new category.
 /// </summary>
-/// <param name="repository">The category repository.</param>
+/// <remarks>
+/// This handler validates the incoming <see cref="CreateCategoryRequest"/>, creates a new <see cref="Category"/> entity,
+/// persists it to the database, and returns the ID of the created category.
+/// </remarks>
+/// <param name="context">The application database context.</param>
 /// <param name="validator">The validator for the create category request.</param>
 internal sealed class CreateCategoryHandler(
-    ICategoryRepository repository,
+    IApplicationDbContext context,
     IValidator<CreateCategoryRequest> validator)
     : ICreateCategoryHandler
 {
@@ -20,7 +24,10 @@ internal sealed class CreateCategoryHandler(
     /// </summary>
     /// <param name="request">The create category request.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A result containing the ID of the created category.</returns>
+    /// <returns>
+    /// A <see cref="Result{T}"/> containing the ID of the created category if successful,
+    /// or validation errors if the request is invalid.
+    /// </returns>
     public async Task<Result<long>> HandleAsync(
         CreateCategoryRequest request,
         CancellationToken cancellationToken)
@@ -41,10 +48,8 @@ internal sealed class CreateCategoryHandler(
         var category = new Category(title);
         category.ChangeDescription(request.Description);
 
-        await repository.AddAsync(category, cancellationToken);
-        await repository
-            .UnitOfWork
-            .SaveChangesAsync(cancellationToken);
+        await context.Categories.AddAsync(category, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return Result<long>.Created(category.Id);
     }
