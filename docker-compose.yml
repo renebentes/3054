@@ -1,0 +1,18 @@
+services:
+  dima.api:
+    image: ${DOCKER_REGISTRY-}dimaapi
+    build:
+      context: .
+      dockerfile: src/Dima.Api/Dockerfile
+
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=dima
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
