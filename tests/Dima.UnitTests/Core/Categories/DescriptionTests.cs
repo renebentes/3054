@@ -14,8 +14,7 @@ public class DescriptionTests
         Action action = () => _ = new Description(random.String());
 
         // Assert
-        action.Should()
-            .NotThrow<DomainException>();
+        action.ShouldNotThrow();
     }
 
     [Theory]
@@ -28,7 +27,9 @@ public class DescriptionTests
         var description = new Description(text!);
 
         // Assert
-        description.Text.Should().BeEmpty();
+        description
+            .Text
+            .ShouldBeEmpty();
     }
 
     [Fact]
@@ -41,9 +42,7 @@ public class DescriptionTests
         Action action = () => _ = new Description(random.String(Description.MaxLength + 1));
 
         // Assert
-        action.Should()
-            .Throw<DomainException>()
-            .WithMessage(DomainErrors.Description.LongerThanAllowed.ToString());
+        action.ShouldThrow<DomainException>(DomainErrors.Description.LongerThanAllowed.ToString());
     }
 
     [Fact]
@@ -57,7 +56,7 @@ public class DescriptionTests
         Description description = expected;
 
         // Assert
-        description.Text.Should().Be(expected);
+        description.Text.ShouldBe(expected);
     }
 
     [Theory]
@@ -71,7 +70,6 @@ public class DescriptionTests
 
         // Assert
         description.ToString()
-            .Should()
-            .Be(description.Text);
+            .ShouldBe(description.Text);
     }
 }

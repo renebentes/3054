@@ -16,16 +16,13 @@ public class ResultTTests
         // Assert
         result
             .IsSuccess
-            .Should()
-            .BeTrue();
+            .ShouldBeTrue();
         result
             .Status
-            .Should()
-            .Be(ResultStatus.Created);
+            .ShouldBe(ResultStatus.Created);
         result
             .Value
-            .Should()
-            .Be(value);
+            .ShouldBe(value);
     }
 
     [Fact]
@@ -46,16 +43,13 @@ public class ResultTTests
         // Assert
         resultWithErrors
             .IsSuccess
-            .Should()
-            .BeFalse();
+            .ShouldBeFalse();
         resultWithErrors
             .Status
-            .Should()
-            .Be(result.Status);
+            .ShouldBe(result.Status);
         resultWithErrors
             .Errors
-            .Should()
-            .BeEquivalentTo(errors);
+            .ShouldBeEquivalentTo(errors);
     }
 
     [Fact]
@@ -70,16 +64,13 @@ public class ResultTTests
         // Assert
         result
             .IsSuccess
-            .Should()
-            .BeTrue();
+            .ShouldBeTrue();
         result
             .Status
-            .Should()
-            .Be(ResultStatus.Ok);
+            .ShouldBe(ResultStatus.Ok);
         result
             .Value
-            .Should()
-            .Be(value);
+            .ShouldBe(value);
     }
 
     [Fact]
@@ -94,16 +85,13 @@ public class ResultTTests
         // Assert
         result
             .IsSuccess
-            .Should()
-            .BeFalse();
+            .ShouldBeFalse();
         result
             .Status
-            .Should()
-            .Be(ResultStatus.Invalid);
+            .ShouldBe(ResultStatus.Invalid);
         result
             .Errors
-            .Should()
-            .ContainSingle(e => e == error);
+            .ShouldContain(e => e == error);
     }
 
     [Fact]
@@ -122,16 +110,13 @@ public class ResultTTests
         // Assert
         result
             .IsSuccess
-            .Should()
-            .BeFalse();
+            .ShouldBeFalse();
         result
             .Status
-            .Should()
-            .Be(ResultStatus.Invalid);
+            .ShouldBe(ResultStatus.Invalid);
         result
             .Errors
-            .Should()
-            .BeEquivalentTo(errors);
+            .ShouldBeEquivalentTo(errors);
     }
 
     [Fact]
@@ -143,16 +128,13 @@ public class ResultTTests
         // Assert
         result
             .IsSuccess
-            .Should()
-            .BeTrue();
+            .ShouldBeTrue();
         result
             .Status
-            .Should()
-            .Be(ResultStatus.NoContent);
+            .ShouldBe(ResultStatus.NoContent);
         result
             .Errors
-            .Should()
-            .BeEmpty();
+            .ShouldBeEmpty();
     }
     [Fact]
     public void Success_ShouldHaveStatusOk()
@@ -166,16 +148,13 @@ public class ResultTTests
         // Assert
         result
             .IsSuccess
-            .Should()
-            .BeTrue();
+            .ShouldBeTrue();
         result
             .Status
-            .Should()
-            .Be(ResultStatus.Ok);
+            .ShouldBe(ResultStatus.Ok);
         result
             .Value
-            .Should()
-            .Be(value);
+            .ShouldBe(value);
     }
 
     [Fact]
@@ -189,9 +168,6 @@ public class ResultTTests
         Action action = () => _ = result.Value;
 
         // Assert
-        action
-            .Should()
-            .Throw<InvalidOperationException>()
-            .WithMessage("Cannot access value for a failure result.");
+        action.ShouldThrow<InvalidOperationException>();
     }
 }

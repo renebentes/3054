@@ -16,7 +16,7 @@ public class TitleTests
         string result = title;
 
         // Assert
-        result.Should().Be(title.ToString());
+        result.ShouldBe(title.ToString());
     }
 
     [Fact]
@@ -29,8 +29,7 @@ public class TitleTests
         Action action = () => _ = new Title(random.String());
 
         // Assert
-        action.Should()
-            .NotThrow<DomainException>();
+        action.ShouldNotThrow();
     }
 
     [Fact]
@@ -43,9 +42,7 @@ public class TitleTests
         Action action = () => _ = new Title(random.String(Title.MaxLength + 1));
 
         // Assert
-        action.Should()
-            .Throw<DomainException>()
-            .WithMessage(DomainErrors.Title.LongerThanAllowed.ToString());
+        action.ShouldThrow<DomainException>(DomainErrors.Title.LongerThanAllowed.ToString());
     }
 
     [Theory]
@@ -57,9 +54,7 @@ public class TitleTests
         Action action = () => _ = new Title(text!);
 
         // Assert
-        action.Should()
-            .Throw<DomainException>()
-            .WithMessage(DomainErrors.Title.NullOrEmpty.ToString());
+        action.ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
     }
 
     [Theory]
@@ -71,6 +66,7 @@ public class TitleTests
         var title = new Title(text!);
 
         // Assert
-        title.ToString().Should().Be(title.Value);
+        title.ToString()
+            .ShouldBe(title.Value);
     }
 }

@@ -36,18 +36,15 @@ public sealed class CreateCategoryHandlerTests
 
         // Assert
         result
-            .Should()
-            .NotBeNull();
+            .ShouldNotBeNull();
 
         result
             .IsSuccess
-            .Should()
-            .BeTrue();
+            .ShouldBeTrue();
 
         result
             .Status
-            .Should()
-            .Be(ResultStatus.Created);
+            .ShouldBe(ResultStatus.Created);
     }
 
     [Theory]
@@ -70,17 +67,14 @@ public sealed class CreateCategoryHandlerTests
 
         // Assert
         result
-            .Should()
-            .NotBeNull();
+            .ShouldNotBeNull();
 
         result
             .IsSuccess
-            .Should()
-            .BeFalse();
+            .ShouldBeFalse();
 
         result
             .Status
-            .Should()
-            .Be(ResultStatus.Invalid);
+            .ShouldBe(ResultStatus.Invalid);
     }
 }
