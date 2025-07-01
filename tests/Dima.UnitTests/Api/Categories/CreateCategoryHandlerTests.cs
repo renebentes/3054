@@ -1,5 +1,5 @@
 using Dima.Api.Categories.CreateCategory;
-using Dima.Api.Data;
+using Dima.Core.Categories;
 using Dima.Core.Categories.CreateCategory;
 using FluentValidation;
 
@@ -13,11 +13,11 @@ public sealed class CreateCategoryHandlerTests
     public CreateCategoryHandlerTests()
     {
         _cancellationToken = TestContext.Current.CancellationToken;
-        IApplicationDbContext context = Substitute.For<IApplicationDbContext>();
+        ICategoryRepository repository = Substitute.For<ICategoryRepository>();
         IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
 
         _handler = new CreateCategoryHandler(
-            context,
+            repository,
             validator);
     }
 
