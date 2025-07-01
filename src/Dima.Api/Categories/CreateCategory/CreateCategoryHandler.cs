@@ -6,24 +6,24 @@ using FluentValidation;
 namespace Dima.Api.Categories.CreateCategory;
 
 /// <summary>
-/// Handles the creation of a new category.
+/// Handles the creation of a new <see cref="Category"/>.
 /// </summary>
 /// <remarks>
 /// This handler validates the incoming <see cref="CreateCategoryRequest"/>, creates a new <see cref="Category"/> entity,
-/// persists it to the database, and returns the ID of the created category.
+/// persists it to the database using the provided <see cref="ICategoryRepository"/>, and returns the ID of the created category.
 /// </remarks>
-/// <param name="context">The application database context.</param>
+/// <param name="repository">The category repository used to persist the new category.</param>
 /// <param name="validator">The validator for the create category request.</param>
 internal sealed class CreateCategoryHandler(
-    IApplicationDbContext context,
+    ICategoryRepository repository,
     IValidator<CreateCategoryRequest> validator)
     : ICreateCategoryHandler
 {
     /// <summary>
     /// Handles the create category request asynchronously.
     /// </summary>
-    /// <param name="request">The create category request.</param>
-    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <param name="request">The create category request containing the data for the new category.</param>
+    /// <param name="cancellationToken">A cancellation token to observe while waiting for the task to complete.</param>
     /// <returns>
     /// A <see cref="Result{T}"/> containing the ID of the created category if successful,
     /// or validation errors if the request is invalid.
@@ -48,8 +48,10 @@ internal sealed class CreateCategoryHandler(
         var category = new Category(title);
         category.ChangeDescription(request.Description);
 
-        await context.Categories.AddAsync(category, cancellationToken);
-        await context.SaveChangesAsync(cancellationToken);
+        await repository.AddAsync(category, cancellationToken);
+        _ = await repository
+            .UnitOfWork
+            .SaveChangesAsync(cancellationToken);
 
         return Result<long>.Created(category.Id);
     }
