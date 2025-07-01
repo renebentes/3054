@@ -10,7 +10,7 @@ namespace Dima.Api.Data;
 /// <param name="options">The database context options</param>
 public class DimaDbContext(DbContextOptions<DimaDbContext> options)
     : DbContext(options),
-    IApplicationDbContext
+    IUnitOfWork
 {
     public DbSet<Category> Categories => Set<Category>();
 
