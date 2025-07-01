@@ -9,15 +9,15 @@ public sealed class CreateCategoryHandlerTests
 {
     private readonly CancellationToken _cancellationToken;
     private readonly CreateCategoryHandler _handler;
+    private readonly ICategoryRepository _repositoryMock = Substitute.For<ICategoryRepository>();
 
     public CreateCategoryHandlerTests()
     {
         _cancellationToken = TestContext.Current.CancellationToken;
-        ICategoryRepository repository = Substitute.For<ICategoryRepository>();
         IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
 
         _handler = new CreateCategoryHandler(
-            repository,
+            _repositoryMock,
             validator);
     }
 
@@ -28,6 +28,11 @@ public sealed class CreateCategoryHandlerTests
         var createCategoryRequest = new CreateCategoryRequest(
             "Category title",
             "Category description");
+
+        _repositoryMock
+            .UnitOfWork
+            .SaveChangesAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.FromResult(1));
 
         // Act
         var result = await _handler.HandleAsync(
@@ -45,6 +50,15 @@ public sealed class CreateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.Created);
+
+        await _repositoryMock
+            .Received(1)
+            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
+
+        await _repositoryMock
+            .UnitOfWork
+            .Received(1)
+            .SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 
     [Theory]
@@ -76,5 +90,9 @@ public sealed class CreateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.Invalid);
+
+        await _repositoryMock
+            .DidNotReceive()
+            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
     }
 }
