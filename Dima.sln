@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.Api", "src\Dima.Api\Di
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{81DDED9D-158B-E303-5F62-77A2896D2A5A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dima.WebApp", "src\Dima.WebApp\Dima.WebApp.csproj", "{27A84842-EED8-4F0F-8BE3-36298CE65667}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81DDED9D-158B-E303-5F62-77A2896D2A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27A84842-EED8-4F0F-8BE3-36298CE65667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27A84842-EED8-4F0F-8BE3-36298CE65667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27A84842-EED8-4F0F-8BE3-36298CE65667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27A84842-EED8-4F0F-8BE3-36298CE65667}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{0F50A6D0-9BCB-46A6-83EB-DD3EABA420BB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{79A9E1B8-EECE-43DA-9917-3B43463D1AE0} = {CF215CAB-82A2-4635-BC42-B4EB3C83B231}
 		{7A0F553F-4D15-4460-9D12-4D0B77BF04A8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{27A84842-EED8-4F0F-8BE3-36298CE65667} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18729CE2-E5BC-48EF-9179-04666615AF8E}
