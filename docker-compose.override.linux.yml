@@ -1,12 +1,12 @@
 services:
-  dima.webapp:
+  webapp:
     ports:
       - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
 
-  dima.api:
+  api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8081
