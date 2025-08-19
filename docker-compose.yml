@@ -1,4 +1,12 @@
+name: dima
+
 services:
+  dima.webapp:
+    image: ${DOCKER_REGISTRY-}dimawebapp
+    build:
+      context: .
+      dockerfile: src/Dima.WebApp/Dockerfile
+
   dima.api:
     image: ${DOCKER_REGISTRY-}dimaapi
     build:
