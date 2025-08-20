@@ -20,6 +20,7 @@ Você pode encontrar os originais em:
 - [Visual Studio Community](https://visualstudio.com)
 - [Visual Studio Code](https://code.visualstudio.com)
 - [PostgreSQL](https://www.postgresql.org)
+- [Blazorise](https://www.blazorise.com/)
 
 ## Histórico de alterações
 
