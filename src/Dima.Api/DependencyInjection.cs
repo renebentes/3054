@@ -32,6 +32,7 @@ internal static class DependencyInjection
     private static IServiceCollection AddDocumentation(this IServiceCollection services)
     {
         services
+            .AddOpenApi()
             .AddEndpointsApiExplorer()
             .AddSwaggerGen();
 
@@ -49,5 +50,21 @@ internal static class DependencyInjection
         services.AddTransient<IUpdateCategoryHandler, UpdateCategoryHandler>();
 
         return services;
+    }
+
+    /// <summary>
+    /// Configures the HTTP endpoints for documentation in the application.
+    /// </summary>
+    /// <param name="app">The <see cref="WebApplication"/> to add endpoints to.</param>
+    /// <returns>The updated <see cref="WebApplication"/> with the registered endpoints.</returns>
+    internal static WebApplication MapDocumentation(this WebApplication app)
+    {
+        app.MapOpenApi();
+
+        app
+            .UseSwagger()
+            .UseSwaggerUI();
+
+        return app;
     }
 }
