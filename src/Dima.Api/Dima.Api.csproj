@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dima.Core\Dima.Core.csproj" />
+    <ProjectReference Include="..\Dima.ServiceDefaults\Dima.ServiceDefaults.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,12 +7,11 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/Dima.Api/Dima.Api.csproj" />
+    <Project Path="src/Dima.AppHost/Dima.AppHost.csproj" Id="b18cd628-c88c-4457-b93b-086bb1b01da9" />
     <Project Path="src/Dima.Core/Dima.Core.csproj" />
+    <Project Path="src/Dima.ServiceDefaults/Dima.ServiceDefaults.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Dima.UnitTests/Dima.UnitTests.csproj" />
   </Folder>
-  <Project Path="docker-compose.dcproj">
-    <Build />
-  </Project>
 </Solution>
