@@ -455,3 +455,6 @@ roslynator_refactoring.wrap_call_chain.enabled = true:warning
 
 # RR0051: Wrap call chain
 roslynator_refactoring.wrap_arguments.enabled = true:warning
+
+[src/Dima.ServiceDefaults/Extensions.cs]
+dotnet_style_namespace_match_folder = false
