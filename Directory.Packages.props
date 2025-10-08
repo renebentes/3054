@@ -5,22 +5,22 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Aspire.Hosting.AppHost" Version="9.5.1" />
-    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="9.4.2" />
+    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="9.5.1" />
     <PackageVersion Include="Bogus" Version="35.6.4" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="FluentValidation" Version="12.0.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.8" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.9" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1-Preview.1" />
     <PackageVersion Include="MockQueryable.NSubstitute" Version="8.0.1" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     <PackageVersion Include="Npgsql.OpenTelemetry" Version="9.0.3" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
-    <PackageVersion Include="Roslynator.Analyzers" Version="4.14.0" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.14.1" />
     <PackageVersion Include="Roslynator.CodeAnalysis.Analyzers" Version="4.14.0" />
     <PackageVersion Include="Roslynator.Formatting.Analyzers" Version="4.14.0" />
     <PackageVersion Include="Shouldly" Version="4.3.0" />
