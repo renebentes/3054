@@ -2,6 +2,7 @@ IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(ar
 
 IResourceBuilder<PostgresDatabaseResource> database = builder
     .AddPostgres("postgres")
+    .WithPgAdmin()
     .WithImage("postgres:17")
     .AddDatabase("dima")
     .WithHealthCheck("/health");
