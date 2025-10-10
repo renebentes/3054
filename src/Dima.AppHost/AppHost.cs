@@ -4,14 +4,20 @@ IResourceBuilder<PostgresDatabaseResource> database = builder
     .AddPostgres("postgres")
     .WithPgAdmin()
     .WithImage("postgres:17")
-    .AddDatabase("dima")
-    .WithHealthCheck("/health");
+    .AddDatabase("DimaDb");
+
+IResourceBuilder<ProjectResource> migrations = builder
+    .AddProject<Projects.Dima_Services_Migrations>("dima-migrations")
+    .WithEnvironment("ConnectionStrings__DimaDb", database)
+    .WithReference(database)
+    .WaitFor(database);
 
 builder
     .AddProject<Projects.Dima_Api>("dima-api")
-    .WithEnvironment("ConnectionStrings__DefaultConnection", database)
+    .WithEnvironment("ConnectionStrings__DimaDb", database)
     .WithReference(database)
-    .WaitFor(database);
+    .WithReference(migrations)
+    .WaitForCompletion(migrations);
 
 await builder
     .Build()

@@ -8,8 +8,9 @@ builder.AddServiceDefaults();
 
 builder.Services
     .AddCore()
-    .AddPersistence(builder.Configuration)
     .AddApi();
+
+builder.AddPersistence();
 
 var app = builder.Build();
 
