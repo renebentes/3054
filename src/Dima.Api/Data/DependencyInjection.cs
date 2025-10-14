@@ -10,24 +10,35 @@ namespace Dima.Api.Data;
 public static class DependencyInjection
 {
     /// <summary>
-    /// Adds persistence-related services to the specified <see cref="IServiceCollection"/>, including the database context and repositories.
+    /// Configures persistence-related services required by the application.
     /// </summary>
-    /// <param name="services">The collection of service descriptors to which persistence services will be added.</param>
-    /// <param name="configuration">The application configuration properties used to retrieve the connection string.</param>
-    /// <returns>
-    /// The updated <see cref="IServiceCollection"/> with persistence services registered.
-    /// </returns>
-    public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+    /// <param name="builder">The <see cref="IHostApplicationBuilder"/> to which persistence services will be added.</param>
+    /// <returns>The same <see cref="IHostApplicationBuilder"/> instance to allow call chaining.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown when the connection string with the key <c>DimaDb</c> cannot be found in the application's configuration.
+    /// </exception>
+    /// <remarks>
+    /// This method:
+    /// <list type="bullet">
+    /// <item>Reads the connection string using the configuration key <c>DimaDb</c>.</item>
+    /// <item>Registers the application's EF Core <c>DbContext</c> for PostgreSQL via <c>AddNpgsqlDbContext</c>.</item>
+    /// <item>Registers repository services by invoking <see cref="AddRepositories"/>.</item>
+    /// </list>
+    /// </remarks>
+    public static IHostApplicationBuilder AddPersistence(this IHostApplicationBuilder builder)
     {
-        var connectionString = configuration.GetConnectionString(ConnectionString.DefaultConnection)!;
-        services.AddSingleton(new ConnectionString(connectionString));
+        var connectionString = builder.Configuration.GetConnectionString(nameof(ConnectionStrings.DimaDb))
+                               ?? throw new InvalidOperationException($"Connection string '{nameof(ConnectionStrings.DimaDb)}' not found.");
+        builder.Services
+            .AddSingleton(new ConnectionStrings(connectionString));
 
-        services.AddDbContext<DimaDbContext>(options =>
-            options.UseNpgsql(connectionString));
+        builder.AddNpgsqlDbContext<DimaDbContext>(nameof(ConnectionStrings.DimaDb));
+        builder.EnrichNpgsqlDbContext<DimaDbContext>();
 
-        services.AddRepositories();
+        builder.Services
+            .AddRepositories();
 
-        return services;
+        return builder;
     }
 
     /// <summary>

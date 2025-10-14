@@ -7,8 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
 
 builder.Services
-    .AddCore()
-    .AddPersistence(builder.Configuration)
+    .AddCore();
+
+builder.AddPersistence();
+
+builder.Services
     .AddApi();
 
 var app = builder.Build();
