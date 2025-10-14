@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dima.Services.Migrations\Dima.Services.Migrations.csproj" />
     <ProjectReference Include="..\Dima.Api\Dima.Api.csproj" />
   </ItemGroup>
 
