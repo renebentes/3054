@@ -18,6 +18,7 @@ internal static class DependencyInjection
     internal static IServiceCollection AddApi(this IServiceCollection services)
     {
         services
+            .AddProblemDetails()
             .AddDocumentation()
             .AddHandlers();
 
