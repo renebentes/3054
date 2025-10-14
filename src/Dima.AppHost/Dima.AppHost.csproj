@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.5.1" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <UserSecretsId>4ee9e0eb-2f90-4702-b163-0796423e4721</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dima.Services.Migrations\Dima.Services.Migrations.csproj" />
+    <ProjectReference Include="..\Dima.Api\Dima.Api.csproj" />
+  </ItemGroup>
+
+</Project>
