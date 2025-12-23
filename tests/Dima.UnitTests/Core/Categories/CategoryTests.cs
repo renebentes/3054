@@ -28,7 +28,7 @@ public class CategoryTests
     {
         // Arrange
         _testCategory = CreateCategory();
-        var newDescription = new Description("New Category Title");
+        var newDescription = new Description("New Category Description");
 
         // Act
         _testCategory.ChangeDescription(newDescription);
