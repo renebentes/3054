@@ -45,7 +45,7 @@ public sealed class Category : Entity
     /// <param name="title">The <see cref="Title"/>.</param>
     public void ChangeTitle(Title title)
     {
-        Ensure.NotEmpty(title, DomainErrors.Title.NullOrEmpty);
+        Ensure.NotEmpty(title, CategoryErrors.Title.NullOrEmpty);
         Title = title;
     }
 }

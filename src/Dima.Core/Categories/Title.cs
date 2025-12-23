@@ -24,8 +24,8 @@ public sealed record Title(string Value)
     /// <exception cref="DomainException"></exception>
     private static string Validate(string value)
     {
-        Ensure.NotEmpty(value, DomainErrors.Title.NullOrEmpty);
-        Ensure.MaxLength(value, MaxLength, DomainErrors.Title.LongerThanAllowed);
+        Ensure.NotEmpty(value, CategoryErrors.Title.NullOrEmpty);
+        Ensure.MaxLength(value, MaxLength, CategoryErrors.Title.LongerThanAllowed);
 
         return value;
     }

@@ -29,7 +29,7 @@ public record Description(string Text)
             text = string.Empty;
         }
 
-        Ensure.MaxLength(text, MaxLength, DomainErrors.Description.LongerThanAllowed);
+        Ensure.MaxLength(text, MaxLength, CategoryErrors.Description.LongerThanAllowed);
 
         return text;
     }

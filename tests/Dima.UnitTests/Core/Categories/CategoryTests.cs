@@ -57,7 +57,7 @@ public class CategoryTests
 
         // Assert
         action
-            .ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
+            .ShouldThrow<DomainException>(CategoryErrors.Title.NullOrEmpty.ToString());
     }
 
     [Theory]
@@ -71,7 +71,7 @@ public class CategoryTests
 
         // Assert
         action
-            .ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
+            .ShouldThrow<DomainException>(CategoryErrors.Title.NullOrEmpty.ToString());
     }
 
     private Category CreateCategory()

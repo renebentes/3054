@@ -51,7 +51,7 @@ public class UpdateCategoryHandler(
 
         if (category is null)
         {
-            return Result.NotFound(DomainErrors.Category.NotFound);
+            return Result.NotFound(CategoryErrors.NotFound(request.Id));
         }
 
         category.ChangeTitle(request.Title);

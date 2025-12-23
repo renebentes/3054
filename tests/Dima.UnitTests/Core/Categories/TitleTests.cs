@@ -42,7 +42,7 @@ public class TitleTests
         Action action = () => _ = new Title(random.String(Title.MaxLength + 1));
 
         // Assert
-        action.ShouldThrow<DomainException>(DomainErrors.Title.LongerThanAllowed.ToString());
+        action.ShouldThrow<DomainException>(CategoryErrors.Title.LongerThanAllowed.ToString());
     }
 
     [Theory]
@@ -54,7 +54,7 @@ public class TitleTests
         Action action = () => _ = new Title(text!);
 
         // Assert
-        action.ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
+        action.ShouldThrow<DomainException>(CategoryErrors.Title.NullOrEmpty.ToString());
     }
 
     [Theory]

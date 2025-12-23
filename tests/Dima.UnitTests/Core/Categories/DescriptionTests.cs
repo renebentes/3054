@@ -42,7 +42,7 @@ public class DescriptionTests
         Action action = () => _ = new Description(random.String(Description.MaxLength + 1));
 
         // Assert
-        action.ShouldThrow<DomainException>(DomainErrors.Description.LongerThanAllowed.ToString());
+        action.ShouldThrow<DomainException>(CategoryErrors.Description.LongerThanAllowed.ToString());
     }
 
     [Fact]
