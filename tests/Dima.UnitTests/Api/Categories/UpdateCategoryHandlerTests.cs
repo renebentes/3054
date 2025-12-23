@@ -43,7 +43,7 @@ public class UpdateCategoryHandlerTests
 
         await _repositoryMock
             .DidNotReceive()
-            .GetByIdAsync(Arg.Any<long>(), Arg.Any<CancellationToken>());
+            .GetByIdAsync(Arg.Any<long>(), _cancellationToken);
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public class UpdateCategoryHandlerTests
         // Arrange
         var request = new UpdateCategoryRequest(1, "Test", "Desc");
 
-        _repositoryMock.GetByIdAsync(request.Id, Arg.Any<CancellationToken>())
+        _repositoryMock.GetByIdAsync(request.Id, _cancellationToken)
             .Returns(Task.FromResult<Category?>(null));
 
         // Act
@@ -81,9 +81,9 @@ public class UpdateCategoryHandlerTests
         // Arrange
         var request = new UpdateCategoryRequest(1, "New Title", "New Desc");
         var category = new Category(new Title("Old Title"));
-        _repositoryMock.GetByIdAsync(request.Id, Arg.Any<CancellationToken>())
+        _repositoryMock.GetByIdAsync(request.Id, _cancellationToken)
             .Returns(Task.FromResult<Category?>(category));
-        _repositoryMock.UnitOfWork.SaveChangesAsync(Arg.Any<CancellationToken>())
+        _repositoryMock.UnitOfWork.SaveChangesAsync(_cancellationToken)
             .Returns(Task.FromResult(1));
 
         // Act
@@ -108,6 +108,6 @@ public class UpdateCategoryHandlerTests
         await _repositoryMock
         .UnitOfWork
         .Received(1)
-        .SaveChangesAsync(Arg.Any<CancellationToken>());
+        .SaveChangesAsync(_cancellationToken);
     }
 }

@@ -31,7 +31,7 @@ public sealed class CreateCategoryHandlerTests
 
         _repositoryMock
             .UnitOfWork
-            .SaveChangesAsync(Arg.Any<CancellationToken>())
+            .SaveChangesAsync(_cancellationToken)
             .Returns(Task.FromResult(1));
 
         // Act
@@ -53,12 +53,12 @@ public sealed class CreateCategoryHandlerTests
 
         await _repositoryMock
             .Received(1)
-            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
+            .AddAsync(Arg.Any<Category>(), _cancellationToken);
 
         await _repositoryMock
             .UnitOfWork
             .Received(1)
-            .SaveChangesAsync(Arg.Any<CancellationToken>());
+            .SaveChangesAsync(_cancellationToken);
     }
 
     [Theory]
@@ -93,6 +93,6 @@ public sealed class CreateCategoryHandlerTests
 
         await _repositoryMock
             .DidNotReceive()
-            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
+            .AddAsync(Arg.Any<Category>(), _cancellationToken);
     }
 }
