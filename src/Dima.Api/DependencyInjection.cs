@@ -2,6 +2,7 @@ using Dima.Api.Categories.CreateCategory;
 using Dima.Api.Categories.UpdateCategory;
 using Dima.Core.Categories.CreateCategory;
 using Dima.Core.Categories.UpdateCategory;
+using Scalar.AspNetCore;
 
 namespace Dima.Api;
 
@@ -34,8 +35,7 @@ internal static class DependencyInjection
     {
         services
             .AddOpenApi()
-            .AddEndpointsApiExplorer()
-            .AddSwaggerGen();
+            .AddEndpointsApiExplorer();
 
         return services;
     }
@@ -58,13 +58,11 @@ internal static class DependencyInjection
     /// </summary>
     /// <param name="app">The <see cref="WebApplication"/> to add endpoints to.</param>
     /// <returns>The updated <see cref="WebApplication"/> with the registered endpoints.</returns>
-    internal static WebApplication MapDocumentation(this WebApplication app)
+    internal static IApplicationBuilder MapDocumentation(this WebApplication app)
     {
         app.MapOpenApi();
 
-        app
-            .UseSwagger()
-            .UseSwaggerUI();
+        app.MapScalarApiReference();
 
         return app;
     }
