@@ -1,0 +1,16 @@
+{
+  "platformOptions": {
+    "resultDirectory": "./tests/TestResults"
+  },
+  "xUnit": {
+    "parallelizeTestCollections": false
+  },
+  "codeCoverage": {
+    "Configuration": {
+      "Format": "cobertura",
+      "CodeCoverage": {
+        "SkipAutoProperties": false
+      }
+    }
+  }
+}
