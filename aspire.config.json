@@ -1,0 +1,5 @@
+{
+  "appHost": {
+    "path": "src/Dima.AppHost/Dima.AppHost.csproj"
+  }
+}
