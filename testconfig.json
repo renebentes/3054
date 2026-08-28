@@ -1,6 +1,6 @@
 {
   "platformOptions": {
-    "resultDirectory": "./tests/TestResults"
+    "resultDirectory": "./test-results"
   },
   "xUnit": {
     "parallelizeTestCollections": false
