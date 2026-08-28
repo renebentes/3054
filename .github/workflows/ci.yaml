@@ -56,5 +56,6 @@ jobs:
         if: always()
         uses: ctrf-io/github-test-reporter@v1
         with:
-          report-path: 'tests/TestResults/**/*.ctrf'
+          report-path: 'test-results/**/*.ctrf'
           github-report: true
+
