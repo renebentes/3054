@@ -32,7 +32,7 @@
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.18.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.19.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.18.0-beta.1" />
-    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.18.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.19.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.18.0" />
     <PackageVersion Include="Roslynator.Analyzers" Version="5.0.0" />
     <PackageVersion Include="Roslynator.CodeAnalysis.Analyzers" Version="5.0.0" />
