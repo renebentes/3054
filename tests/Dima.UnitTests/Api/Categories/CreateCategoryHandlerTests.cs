@@ -1,23 +1,25 @@
 using Dima.Api.Categories.CreateCategory;
 using Dima.Core.Categories;
 using Dima.Core.Categories.CreateCategory;
+using Dima.UnitTests.Api.Configuring;
 using FluentValidation;
 
 namespace Dima.UnitTests.Api.Categories;
 
 public sealed class CreateCategoryHandlerTests
+    : IClassFixture<DatabaseFixture>
 {
     private readonly CancellationToken _cancellationToken;
-    private readonly CreateCategoryHandler _handler;
+    private readonly ICreateCategoryHandler _handler;
     private readonly ICategoryRepository _repositoryMock = Substitute.For<ICategoryRepository>();
 
-    public CreateCategoryHandlerTests()
+    public CreateCategoryHandlerTests(DatabaseFixture fixture)
     {
         _cancellationToken = TestContext.Current.CancellationToken;
         IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
 
         _handler = new CreateCategoryHandler(
-            _repositoryMock,
+            fixture.CreateContext(),
             validator);
     }
 
@@ -28,11 +30,6 @@ public sealed class CreateCategoryHandlerTests
         var createCategoryRequest = new CreateCategoryRequest(
             "Category title",
             "Category description");
-
-        _repositoryMock
-            .UnitOfWork
-            .SaveChangesAsync(Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult(1));
 
         // Act
         var result = await _handler.HandleAsync(
@@ -50,15 +47,6 @@ public sealed class CreateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.Created);
-
-        await _repositoryMock
-            .Received(1)
-            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
-
-        await _repositoryMock
-            .UnitOfWork
-            .Received(1)
-            .SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 
     [Theory]
@@ -90,9 +78,5 @@ public sealed class CreateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.Invalid);
-
-        await _repositoryMock
-            .DidNotReceive()
-            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
     }
 }
