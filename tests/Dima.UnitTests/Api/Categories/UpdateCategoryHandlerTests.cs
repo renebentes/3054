@@ -1,21 +1,23 @@
 using Dima.Api.Categories.UpdateCategory;
+using Dima.Api.Data;
 using Dima.Core.Categories;
 using Dima.Core.Categories.UpdateCategory;
 
 namespace Dima.UnitTests.Api.Categories;
 
 public class UpdateCategoryHandlerTests
+    : IClassFixture<DatabaseFixture>
 {
     private readonly CancellationToken _cancellationToken;
     private readonly UpdateCategoryHandler _handler;
-    private readonly ICategoryRepository _repositoryMock = Substitute.For<ICategoryRepository>();
 
-    public UpdateCategoryHandlerTests()
+    public UpdateCategoryHandlerTests(DatabaseFixture fixture)
     {
         var validator = new UpdateCategoryRequestValidator();
         _cancellationToken = TestContext.Current.CancellationToken;
+        using DimaDbContext context = fixture.CreateContext();
         _handler = new UpdateCategoryHandler(
-            _repositoryMock,
+            context,
             validator
         );
     }
@@ -40,10 +42,6 @@ public class UpdateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.Invalid);
-
-        await _repositoryMock
-            .DidNotReceive()
-            .GetByIdAsync(Arg.Any<long>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -51,9 +49,6 @@ public class UpdateCategoryHandlerTests
     {
         // Arrange
         var request = new UpdateCategoryRequest(1, "Test", "Desc");
-
-        _repositoryMock.GetByIdAsync(request.Id, Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult<Category?>(null));
 
         // Act
         var result = await _handler.HandleAsync(request, _cancellationToken);
@@ -69,10 +64,6 @@ public class UpdateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.NotFound);
-
-        _repositoryMock
-        .DidNotReceive()
-        .Update(Arg.Any<Category>());
     }
 
     [Fact]
@@ -81,10 +72,6 @@ public class UpdateCategoryHandlerTests
         // Arrange
         var request = new UpdateCategoryRequest(1, "New Title", "New Desc");
         var category = new Category(new Title("Old Title"));
-        _repositoryMock.GetByIdAsync(request.Id, Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult<Category?>(category));
-        _repositoryMock.UnitOfWork.SaveChangesAsync(Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult(1));
 
         // Act
         var result = await _handler.HandleAsync(request, _cancellationToken);
@@ -100,14 +87,5 @@ public class UpdateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.NoContent);
-
-        _repositoryMock
-        .Received(1)
-        .Update(category);
-
-        await _repositoryMock
-        .UnitOfWork
-        .Received(1)
-        .SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 }

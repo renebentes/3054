@@ -1,7 +1,6 @@
 using Dima.Api.Categories.CreateCategory;
-using Dima.Core.Categories;
+using Dima.Api.Data;
 using Dima.Core.Categories.CreateCategory;
-using Dima.UnitTests.Api.Configuring;
 using FluentValidation;
 
 namespace Dima.UnitTests.Api.Categories;
@@ -10,14 +9,13 @@ public sealed class CreateCategoryHandlerTests
     : IClassFixture<DatabaseFixture>
 {
     private readonly CancellationToken _cancellationToken;
-    private readonly ICreateCategoryHandler _handler;
-    private readonly ICategoryRepository _repositoryMock = Substitute.For<ICategoryRepository>();
+    private readonly CreateCategoryHandler _handler;
 
     public CreateCategoryHandlerTests(DatabaseFixture fixture)
     {
         _cancellationToken = TestContext.Current.CancellationToken;
         IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
-
+        // using DimaDbContext context = ;
         _handler = new CreateCategoryHandler(
             fixture.CreateContext(),
             validator);

@@ -5,27 +5,27 @@ using System.Data.Common;
 
 namespace Dima.UnitTests.Api.Configuring;
 
-public class DatabaseFixture
+public sealed class DatabaseFixture
     : IDisposable
 {
     private readonly DbConnection _connection;
-    private readonly DbContextOptions<DimaDbContext> _contextOptions;
 
     public DatabaseFixture()
     {
         _connection = new SqliteConnection("DataSource=:memory:");
         _connection.Open();
 
-        _contextOptions = new DbContextOptionsBuilder<DimaDbContext>()
-            .UseSqlite(_connection)
-            .Options;
-
-        using var context = new DimaDbContext(_contextOptions);
+        using DimaDbContext context = CreateContext();
+        context.Database.EnsureCreated();
     }
 
     public DimaDbContext CreateContext()
-        => new(_contextOptions);
+        => new(new DbContextOptionsBuilder<DimaDbContext>()
+            .UseSqlite(_connection)
+            .Options);
 
     public void Dispose()
-        => _connection.Dispose();
+    {
+        _connection.Dispose();
+    }
 }
