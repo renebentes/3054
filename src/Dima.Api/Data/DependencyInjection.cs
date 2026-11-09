@@ -1,5 +1,3 @@
-using Dima.Api.Data.Categories;
-using Dima.Core.Categories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Data;
@@ -35,23 +33,6 @@ public static class DependencyInjection
         builder.AddNpgsqlDbContext<DimaDbContext>(nameof(ConnectionStrings.DimaDb));
         builder.EnrichNpgsqlDbContext<DimaDbContext>();
 
-        builder.Services
-            .AddRepositories();
-
         return builder;
-    }
-
-    /// <summary>
-    /// Registers repository services in the specified <see cref="IServiceCollection"/>.
-    /// </summary>
-    /// <param name="services">The collection of service descriptors to which repository services will be added.</param>
-    /// <returns>
-    /// The updated <see cref="IServiceCollection"/> with repository services registered.
-    /// </returns>
-    private static IServiceCollection AddRepositories(this IServiceCollection services)
-    {
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
-
-        return services;
     }
 }
