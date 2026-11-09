@@ -17,7 +17,7 @@ public class UpdateCategoryHandlerTests
         // Arrange
         var request = new UpdateCategoryRequest(1, "", "Desc");
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = fixture.CreateContext();
+        await using DimaDbContext context = await fixture.CreateContextAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
@@ -42,7 +42,7 @@ public class UpdateCategoryHandlerTests
         // Arrange
         var request = new UpdateCategoryRequest(1, "Test", "Desc");
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = fixture.CreateContext();
+        await using DimaDbContext context = await fixture.CreateContextAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
@@ -66,7 +66,7 @@ public class UpdateCategoryHandlerTests
     {
         // Arrange
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = fixture.CreateContext();
+        await using DimaDbContext context = await fixture.CreateContextAsync(cancellationToken);
         var category = new Category("Old Title");
         category.ChangeDescription("Old Desc");
 

@@ -1,33 +1,30 @@
 using Dima.Api.Data;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
 
 namespace Dima.UnitTests.Api.Configuring;
 
 public sealed class DatabaseFixture
-    : IAsyncLifetime
 {
-    private DbConnection _connection = null!;
-
-    public DimaDbContext CreateContext()
+    public async Task<DimaDbContext> CreateContextAsync(
+        CancellationToken cancellationToken)
     {
         DbContextOptions<DimaDbContext> options = new DbContextOptionsBuilder<DimaDbContext>()
-            .UseSqlite(_connection)
+            .UseSqlite("Data Source=:memory:")
             .Options;
 
-        return new(options);
-    }
+        var context = new DimaDbContext(options);
 
-    public async ValueTask DisposeAsync()
-        => await _connection.DisposeAsync();
+        try
+        {
+            await context.Database.OpenConnectionAsync(cancellationToken);
+            await context.Database.EnsureCreatedAsync(cancellationToken);
 
-    public async ValueTask InitializeAsync()
-    {
-        _connection = new SqliteConnection("DataSource=:memory:");
-        await _connection.OpenAsync();
-
-        await using DimaDbContext context = CreateContext();
-        await context.Database.EnsureCreatedAsync();
+            return context;
+        }
+        catch
+        {
+            await context.DisposeAsync();
+            throw;
+        }
     }
 }

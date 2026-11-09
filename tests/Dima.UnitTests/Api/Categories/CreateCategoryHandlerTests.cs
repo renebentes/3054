@@ -17,7 +17,7 @@ public sealed class CreateCategoryHandlerTests
             "Category title",
             "Category description");
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = fixture.CreateContext();
+        await using DimaDbContext context = await fixture.CreateContextAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
@@ -51,7 +51,7 @@ public sealed class CreateCategoryHandlerTests
             title!,
             description);
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = fixture.CreateContext();
+        await using DimaDbContext context = await fixture.CreateContextAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
