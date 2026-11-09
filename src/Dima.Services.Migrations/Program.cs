@@ -1,5 +1,5 @@
 using Dima.Api.Data;
-using Dima.MigrationService;
+using Dima.Services.Migrations;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -14,4 +14,4 @@ builder.Services
 builder.AddNpgsqlDbContext<DimaDbContext>(nameof(ConnectionStrings.DimaDb));
 
 var host = builder.Build();
-host.Run();
+await host.RunAsync();

@@ -14,7 +14,7 @@ Você pode encontrar os originais em:
 
 ## Tecnologias Utilizadas
 
-- [.NET 8](https://dot.net)
+- [.NET 10+](https://dot.net)
 - [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
 - [ASP.NET Core Minimal API](https://dotnet.microsoft.com/apps/aspnet/apis)
 - [Visual Studio Community](https://visualstudio.com)

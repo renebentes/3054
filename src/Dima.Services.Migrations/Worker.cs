@@ -2,7 +2,7 @@ using Dima.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-namespace Dima.MigrationService;
+namespace Dima.Services.Migrations;
 
 internal class Worker(
     ILogger<Worker> logger,
@@ -13,16 +13,20 @@ internal class Worker(
     public const string ActivitySourceName = "Migrations";
     private readonly ActivitySource _activitySource = new(ActivitySourceName);
 
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using var activity = _activitySource.StartActivity("Ininitalizing database", ActivityKind.Client);
+        using Activity? activity = _activitySource.StartActivity(
+            "Initializing database",
+            ActivityKind.Client);
 
         try
         {
             using var scope = serviceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<DimaDbContext>();
+            var dbContext = scope
+                .ServiceProvider
+                .GetRequiredService<DimaDbContext>();
 
-            await RunMigrationAsync(dbContext, cancellationToken);
+            await RunMigrationAsync(dbContext, stoppingToken);
         }
         catch (Exception ex)
         {
@@ -39,11 +43,16 @@ internal class Worker(
     {
         var stopWatch = Stopwatch.StartNew();
 
-        var strategy = context.Database.CreateExecutionStrategy();
+        var strategy = context
+            .Database
+            .CreateExecutionStrategy();
+
         await strategy.ExecuteAsync(
             context.Database.MigrateAsync,
             cancellationToken);
 
-        logger.LogInformation("Database initialization completed after {ElapsedMilliseconds}ms", stopWatch.ElapsedMilliseconds);
+        logger.LogInformation(
+            "Database initialization completed after {ElapsedMilliseconds}ms",
+            stopWatch.ElapsedMilliseconds);
     }
 }

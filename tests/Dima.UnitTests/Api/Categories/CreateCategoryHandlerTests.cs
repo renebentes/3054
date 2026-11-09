@@ -1,5 +1,5 @@
 using Dima.Api.Categories.CreateCategory;
-using Dima.Core.Categories;
+using Dima.Api.Data;
 using Dima.Core.Categories.CreateCategory;
 using FluentValidation;
 
@@ -7,20 +7,6 @@ namespace Dima.UnitTests.Api.Categories;
 
 public sealed class CreateCategoryHandlerTests
 {
-    private readonly CancellationToken _cancellationToken;
-    private readonly CreateCategoryHandler _handler;
-    private readonly ICategoryRepository _repositoryMock = Substitute.For<ICategoryRepository>();
-
-    public CreateCategoryHandlerTests()
-    {
-        _cancellationToken = TestContext.Current.CancellationToken;
-        IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
-
-        _handler = new CreateCategoryHandler(
-            _repositoryMock,
-            validator);
-    }
-
     [Fact]
     public async Task HandleAsync_ShouldReturnCreated_WhenRequestIsValid()
     {
@@ -28,16 +14,14 @@ public sealed class CreateCategoryHandlerTests
         var createCategoryRequest = new CreateCategoryRequest(
             "Category title",
             "Category description");
-
-        _repositoryMock
-            .UnitOfWork
-            .SaveChangesAsync(Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult(1));
+        var cancellationToken = TestContext.Current.CancellationToken;
+        await using DimaDbContext context = await DatabaseFixture.CreateContextAsync(cancellationToken);
+        var handler = CreateHandler(context);
 
         // Act
-        var result = await _handler.HandleAsync(
+        var result = await handler.HandleAsync(
             createCategoryRequest,
-            _cancellationToken);
+            cancellationToken);
 
         // Assert
         result
@@ -50,15 +34,6 @@ public sealed class CreateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.Created);
-
-        await _repositoryMock
-            .Received(1)
-            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
-
-        await _repositoryMock
-            .UnitOfWork
-            .Received(1)
-            .SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 
     [Theory]
@@ -73,11 +48,14 @@ public sealed class CreateCategoryHandlerTests
         var createCategoryRequest = new CreateCategoryRequest(
             title!,
             description);
+        var cancellationToken = TestContext.Current.CancellationToken;
+        await using DimaDbContext context = await DatabaseFixture.CreateContextAsync(cancellationToken);
+        var handler = CreateHandler(context);
 
         // Act
-        var result = await _handler.HandleAsync(
+        var result = await handler.HandleAsync(
             createCategoryRequest,
-            _cancellationToken);
+            cancellationToken);
 
         // Assert
         result
@@ -90,9 +68,13 @@ public sealed class CreateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.Invalid);
+    }
 
-        await _repositoryMock
-            .DidNotReceive()
-            .AddAsync(Arg.Any<Category>(), Arg.Any<CancellationToken>());
+    private static CreateCategoryHandler CreateHandler(DimaDbContext context)
+    {
+        IValidator<CreateCategoryRequest> validator = new CreateCategoryRequestValidator();
+        return new CreateCategoryHandler(
+            context,
+            validator);
     }
 }
