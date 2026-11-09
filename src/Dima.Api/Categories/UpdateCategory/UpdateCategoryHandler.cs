@@ -2,20 +2,19 @@ using Dima.Api.Common;
 using Dima.Core.Categories;
 using Dima.Core.Categories.UpdateCategory;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dima.Api.Categories.UpdateCategory;
 
-/// <summary>
-/// Handles the update of an existing category.
-/// </summary>
+/// <inheritdoc />
 /// <remarks>
 /// This handler validates the incoming <see cref="UpdateCategoryRequest"/>, updates the corresponding <see cref="Category"/> entity,
 /// persists the changes to the database, and returns the result of the operation.
 /// </remarks>
-/// <param name="repository">The application database context.</param>
+/// <param name="context">The application database context.</param>
 /// <param name="validator">The validator for the update category request.</param>
 public class UpdateCategoryHandler(
-    ICategoryRepository repository,
+    DimaDbContext context,
     IValidator<UpdateCategoryRequest> validator)
     : IUpdateCategoryHandler
 {
@@ -44,10 +43,10 @@ public class UpdateCategoryHandler(
             );
         }
 
-        var category = await repository.GetByIdAsync(
-            request.Id,
-            cancellationToken
-            );
+        var category = await context
+            .Categories
+            .Where(c => c.Id == request.Id)
+            .SingleOrDefaultAsync(cancellationToken);
 
         if (category is null)
         {
@@ -57,9 +56,10 @@ public class UpdateCategoryHandler(
         category.ChangeTitle(request.Title);
         category.ChangeDescription(request.Description);
 
-        repository.Update(category);
-        _ = await repository
-            .UnitOfWork
+        context
+            .Categories
+            .Update(category);
+        _ = await context
             .SaveChangesAsync(cancellationToken);
 
         return Result.NoContent();

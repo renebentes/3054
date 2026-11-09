@@ -10,6 +10,7 @@
     <PackageReference Include="Aspire.Hosting.Testing" />
     <PackageReference Include="Bogus" />
     <PackageReference Include="FluentValidation" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
     <PackageReference Include="MockQueryable.NSubstitute" />
     <PackageReference Include="NSubstitute" />

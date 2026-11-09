@@ -1,33 +1,27 @@
 using Dima.Api.Categories.UpdateCategory;
+using Dima.Api.Data;
 using Dima.Core.Categories;
 using Dima.Core.Categories.UpdateCategory;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dima.UnitTests.Api.Categories;
 
 public class UpdateCategoryHandlerTests
+    (DatabaseFixture fixture)
+    : IClassFixture<DatabaseFixture>
 {
-    private readonly CancellationToken _cancellationToken;
-    private readonly UpdateCategoryHandler _handler;
-    private readonly ICategoryRepository _repositoryMock = Substitute.For<ICategoryRepository>();
-
-    public UpdateCategoryHandlerTests()
-    {
-        var validator = new UpdateCategoryRequestValidator();
-        _cancellationToken = TestContext.Current.CancellationToken;
-        _handler = new UpdateCategoryHandler(
-            _repositoryMock,
-            validator
-        );
-    }
-
     [Fact]
     public async Task HandleAsync_ShouldReturnInvalid_WhenValidationFails()
     {
         // Arrange
         var request = new UpdateCategoryRequest(1, "", "Desc");
+        var cancellationToken = TestContext.Current.CancellationToken;
+        await using DimaDbContext context = fixture.CreateContext();
+        var handler = CreateHandler(context);
 
         // Act
-        var result = await _handler.HandleAsync(request, _cancellationToken);
+        var result = await handler.HandleAsync(request, cancellationToken);
 
         // Assert
         result
@@ -40,10 +34,6 @@ public class UpdateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.Invalid);
-
-        await _repositoryMock
-            .DidNotReceive()
-            .GetByIdAsync(Arg.Any<long>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -51,12 +41,12 @@ public class UpdateCategoryHandlerTests
     {
         // Arrange
         var request = new UpdateCategoryRequest(1, "Test", "Desc");
-
-        _repositoryMock.GetByIdAsync(request.Id, Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult<Category?>(null));
+        var cancellationToken = TestContext.Current.CancellationToken;
+        await using DimaDbContext context = fixture.CreateContext();
+        var handler = CreateHandler(context);
 
         // Act
-        var result = await _handler.HandleAsync(request, _cancellationToken);
+        var result = await handler.HandleAsync(request, cancellationToken);
 
         // Assert
         result
@@ -69,29 +59,30 @@ public class UpdateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.NotFound);
-
-        _repositoryMock
-        .DidNotReceive()
-        .Update(Arg.Any<Category>());
     }
 
     [Fact]
     public async Task HandleAsync_ShouldUpdateCategory_WhenRequestIsValid()
     {
         // Arrange
-        var request = new UpdateCategoryRequest(1, "New Title", "New Desc");
-        var category = new Category(new Title("Old Title"));
-        _repositoryMock.GetByIdAsync(request.Id, Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult<Category?>(category));
-        _repositoryMock.UnitOfWork.SaveChangesAsync(Arg.Any<CancellationToken>())
-            .Returns(Task.FromResult(1));
+        var cancellationToken = TestContext.Current.CancellationToken;
+        await using DimaDbContext context = fixture.CreateContext();
+        var category = new Category("Old Title");
+        category.ChangeDescription("Old Desc");
+
+        context
+            .Categories
+            .Add(category);
+        await context.SaveChangesAsync(cancellationToken);
+
+        var request = new UpdateCategoryRequest(category.Id, "New Title", "New Desc");
+        var handler = CreateHandler(context);
 
         // Act
-        var result = await _handler.HandleAsync(request, _cancellationToken);
+        var result = await handler.HandleAsync(request, cancellationToken);
 
         // Assert
-        result
-            .ShouldNotBeNull();
+        result.ShouldNotBeNull();
 
         result
             .IsSuccess
@@ -101,13 +92,28 @@ public class UpdateCategoryHandlerTests
             .Status
             .ShouldBe(ResultStatus.NoContent);
 
-        _repositoryMock
-        .Received(1)
-        .Update(category);
+        var updatedCategory = await context.Categories
+           .AsNoTracking()
+           .FirstOrDefaultAsync(
+               x => x.Id == category.Id,
+               cancellationToken);
 
-        await _repositoryMock
-        .UnitOfWork
-        .Received(1)
-        .SaveChangesAsync(Arg.Any<CancellationToken>());
+        updatedCategory.ShouldNotBeNull();
+        updatedCategory
+            .Title
+            .ToString()
+            .ShouldBe(request.Title);
+        updatedCategory
+            .Description
+            .ToString()
+            .ShouldBe(request.Description);
+    }
+
+    private static UpdateCategoryHandler CreateHandler(DimaDbContext context)
+    {
+        IValidator<UpdateCategoryRequest> validator = new UpdateCategoryRequestValidator();
+        return new UpdateCategoryHandler(
+            context,
+            validator);
     }
 }

@@ -5,17 +5,13 @@ using FluentValidation;
 
 namespace Dima.Api.Categories.CreateCategory;
 
-/// <summary>
-/// Handles the creation of a new <see cref="Category"/>.
-/// </summary>
+/// <inheritdoc cref="ICreateCategoryHandler"/>
 /// <remarks>
 /// This handler validates the incoming <see cref="CreateCategoryRequest"/>, creates a new <see cref="Category"/> entity,
-/// persists it to the database using the provided <see cref="ICategoryRepository"/>, and returns the ID of the created category.
+/// persists it to the database using the provided <see cref="DimaDbContext"/>, and returns the ID of the created category.
 /// </remarks>
-/// <param name="repository">The category repository used to persist the new category.</param>
-/// <param name="validator">The validator for the create category request.</param>
 internal sealed class CreateCategoryHandler(
-    ICategoryRepository repository,
+    DimaDbContext context,
     IValidator<CreateCategoryRequest> validator)
     : ICreateCategoryHandler
 {
@@ -48,9 +44,8 @@ internal sealed class CreateCategoryHandler(
         var category = new Category(title);
         category.ChangeDescription(request.Description);
 
-        await repository.AddAsync(category, cancellationToken);
-        _ = await repository
-            .UnitOfWork
+        await context.Categories.AddAsync(category, cancellationToken);
+        _ = await context
             .SaveChangesAsync(cancellationToken);
 
         return Result<long>.Created(category.Id);
