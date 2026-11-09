@@ -5,7 +5,7 @@ namespace Dima.UnitTests.Api.Configuring;
 
 public sealed class DatabaseFixture
 {
-    public async Task<DimaDbContext> CreateContextAsync(
+    public static async Task<DimaDbContext> CreateContextAsync(
         CancellationToken cancellationToken)
     {
         DbContextOptions<DimaDbContext> options = new DbContextOptionsBuilder<DimaDbContext>()

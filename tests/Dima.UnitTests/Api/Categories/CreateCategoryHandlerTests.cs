@@ -6,8 +6,6 @@ using FluentValidation;
 namespace Dima.UnitTests.Api.Categories;
 
 public sealed class CreateCategoryHandlerTests
-    (DatabaseFixture fixture)
-    : IClassFixture<DatabaseFixture>
 {
     [Fact]
     public async Task HandleAsync_ShouldReturnCreated_WhenRequestIsValid()
@@ -17,7 +15,7 @@ public sealed class CreateCategoryHandlerTests
             "Category title",
             "Category description");
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = await fixture.CreateContextAsync(cancellationToken);
+        await using DimaDbContext context = await DatabaseFixture.CreateContextAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
@@ -51,7 +49,7 @@ public sealed class CreateCategoryHandlerTests
             title!,
             description);
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = await fixture.CreateContextAsync(cancellationToken);
+        await using DimaDbContext context = await DatabaseFixture.CreateContextAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
