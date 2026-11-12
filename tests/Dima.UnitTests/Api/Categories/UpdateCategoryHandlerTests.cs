@@ -15,7 +15,7 @@ public class UpdateCategoryHandlerTests
         // Arrange
         var request = new UpdateCategoryRequest(1, "", "Desc");
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = await DatabaseFixture.CreateContextAsync(cancellationToken);
+        await using DimaDbContext context = await DimaDbContextFactory.CreateAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
@@ -40,7 +40,7 @@ public class UpdateCategoryHandlerTests
         // Arrange
         var request = new UpdateCategoryRequest(1, "Test", "Desc");
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = await DatabaseFixture.CreateContextAsync(cancellationToken);
+        await using DimaDbContext context = await DimaDbContextFactory.CreateAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
@@ -64,16 +64,23 @@ public class UpdateCategoryHandlerTests
     {
         // Arrange
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = await DatabaseFixture.CreateContextAsync(cancellationToken);
-        var category = new Category("Old Title");
-        category.ChangeDescription("Old Desc");
+        await using DimaDbContext context = await DimaDbContextFactory.CreateAsync(cancellationToken);
+        var title = new Title("Old Title");
+        var description = new Description("Old Desc");
+        var category = new Category(title);
+        category.ChangeDescription(description);
 
         context
             .Categories
             .Add(category);
         await context.SaveChangesAsync(cancellationToken);
 
-        var request = new UpdateCategoryRequest(category.Id, "New Title", "New Desc");
+        var titleUpdated = new Title("New Title");
+        var descriptionUpdated = new Description("New Desc");
+        var request = new UpdateCategoryRequest(
+            category.Id,
+            titleUpdated,
+            descriptionUpdated);
         var handler = CreateHandler(context);
 
         // Act
@@ -93,7 +100,7 @@ public class UpdateCategoryHandlerTests
         var updatedCategory = await context.Categories
            .AsNoTracking()
            .FirstOrDefaultAsync(
-               x => x.Id == category.Id,
+               x => x.Id == request.Id,
                cancellationToken);
 
         updatedCategory.ShouldNotBeNull();
