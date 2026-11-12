@@ -41,8 +41,11 @@ internal sealed class CreateCategoryHandler(
         }
 
         var title = new Title(request.Title);
+        var description = request.Description is null
+            ? Description.Empty
+            : new Description(request.Description);
         var category = new Category(title);
-        category.ChangeDescription(request.Description);
+        category.ChangeDescription(description);
 
         await context.Categories.AddAsync(category, cancellationToken);
         _ = await context
