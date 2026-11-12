@@ -54,7 +54,9 @@ public class UpdateCategoryHandler(
         }
 
         var title = new Title(request.Title);
-        var description = new Description(request.Description);
+        var description = request.Description is null
+            ? Description.Empty
+            : new Description(request.Description);
         category.ChangeTitle(title);
         category.ChangeDescription(description);
 

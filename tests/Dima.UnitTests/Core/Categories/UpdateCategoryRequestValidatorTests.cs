@@ -76,9 +76,12 @@ public sealed class UpdateCategoryRequestValidatorTests
     }
 
     [Fact]
-    public void Validate_IsValid_WhenDescriptionIsNull_CurrentBehavior()
+    public void Validate_IsValid_WhenDescriptionIsNull()
     {
-        var request = new UpdateCategoryRequest(1, "Title", null!);
+        var request = new UpdateCategoryRequest(
+            1,
+            "Title",
+            null);
 
         _validator
             .TestValidate(request)
