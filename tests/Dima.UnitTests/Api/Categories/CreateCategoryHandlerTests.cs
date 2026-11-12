@@ -2,6 +2,7 @@ using Dima.Api.Categories.CreateCategory;
 using Dima.Api.Data;
 using Dima.Core.Categories.CreateCategory;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dima.UnitTests.Api.Categories;
 
@@ -11,16 +12,16 @@ public sealed class CreateCategoryHandlerTests
     public async Task HandleAsync_ShouldReturnCreated_WhenRequestIsValid()
     {
         // Arrange
-        var createCategoryRequest = new CreateCategoryRequest(
+        var request = new CreateCategoryRequest(
             "Category title",
             "Category description");
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = await DatabaseFixture.CreateContextAsync(cancellationToken);
+        await using DimaDbContext context = await DimaDbContextFactory.CreateAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
         var result = await handler.HandleAsync(
-            createCategoryRequest,
+            request,
             cancellationToken);
 
         // Assert
@@ -34,6 +35,41 @@ public sealed class CreateCategoryHandlerTests
         result
             .Status
             .ShouldBe(ResultStatus.Created);
+
+        var categoryCreated = await context
+            .Categories
+            .AsNoTracking()
+            .SingleOrDefaultAsync(
+                c => c.Title.Value == request.Title,
+                cancellationToken);
+
+        categoryCreated
+            .ShouldNotBeNull();
+
+        categoryCreated
+            .Description
+            .ToString()
+            .ShouldBe(request.Description);
+    }
+
+    [Fact]
+    public async Task HandleAsync_ShouldCreateCategoryWithEmptyDescription_WhenDescriptionIsNull()
+    {
+        var request = new CreateCategoryRequest("Category title", null);
+        var cancellationToken = TestContext.Current.CancellationToken;
+        await using DimaDbContext context = await DimaDbContextFactory.CreateAsync(cancellationToken);
+        var handler = CreateHandler(context);
+
+        var result = await handler.HandleAsync(request, cancellationToken);
+
+        result
+            .Status
+            .ShouldBe(ResultStatus.Created);
+
+        var categoryCreated = context.Categories.Local
+            .Single(c => c.Title.Value == request.Title);
+
+        categoryCreated.Description.ShouldBe(Dima.Core.Categories.Description.Empty);
     }
 
     [Theory]
@@ -49,7 +85,7 @@ public sealed class CreateCategoryHandlerTests
             title!,
             description);
         var cancellationToken = TestContext.Current.CancellationToken;
-        await using DimaDbContext context = await DatabaseFixture.CreateContextAsync(cancellationToken);
+        await using DimaDbContext context = await DimaDbContextFactory.CreateAsync(cancellationToken);
         var handler = CreateHandler(context);
 
         // Act
