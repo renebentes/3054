@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dima.UnitTests.Api.Configuring;
 
-public sealed class DatabaseFixture
+public sealed class DimaDbContextFactory
 {
-    public static async Task<DimaDbContext> CreateContextAsync(
+    public static async Task<DimaDbContext> CreateAsync(
         CancellationToken cancellationToken)
     {
         DbContextOptions<DimaDbContext> options = new DbContextOptionsBuilder<DimaDbContext>()

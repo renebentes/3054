@@ -5,6 +5,6 @@ namespace Dima.Core.Categories.UpdateCategory;
 /// </summary>
 /// <param name="Id">The unique identifier of the category.</param>
 /// <param name="Title">The title of the category.</param>
-/// <param name="Description">The description of the category.</param>
-public sealed record UpdateCategoryRequest(long Id, string Title, string Description)
+/// <param name="Description">The <see cref="Category"/> description, or <see langword="null"/> when omitted</param>
+public sealed record UpdateCategoryRequest(long Id, string Title, string? Description)
     : IRequest<Result>;

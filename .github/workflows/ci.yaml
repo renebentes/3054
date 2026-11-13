@@ -34,7 +34,7 @@ jobs:
         run: dotnet build --no-restore -c Release
 
       - name: Run Unit Tests with coverage
-        run: dotnet run --project ./tests/**/*UnitTests.csproj --no-restore --no-build -c Release --coverage --report-xunit-ctrf
+        run: dotnet test --project ./tests/**/*UnitTests.csproj --no-restore --no-build -c Release --coverage --report-xunit-ctrf
 
       - name: Code Coverage Summary Report
         uses: irongut/CodeCoverageSummary@v1.3.0
@@ -56,7 +56,7 @@ jobs:
         if: always()
         uses: ctrf-io/github-test-reporter@v1
         with:
-          report-path: 'test-results/**/*.ctrf'
+          report-path: 'test-results/*.ctrf'
           github-report: true
           fetch-previous-results: true
           upload-artifact: true

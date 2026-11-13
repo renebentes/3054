@@ -3,8 +3,7 @@ namespace Dima.Core.Categories;
 /// <summary>
 /// Represents a <see cref="Title"/> for a <see cref="Category"/> object.
 /// </summary>
-/// <param name="Value">The title value</param>
-public sealed record Title(string Value)
+public sealed record Title
 {
     /// <summary>
     /// The title maximum length
@@ -12,9 +11,20 @@ public sealed record Title(string Value)
     public const int MaxLength = 80;
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="Title"/> record.
+    /// </summary>
+    /// <param name="value">The title value</param>
+    public Title(string value)
+        => Value = value;
+
+    /// <summary>
     /// Gets the title value
     /// </summary>
-    public string Value { get; init; } = Validate(Value);
+    public string Value
+    {
+        get;
+        init => field = Validate(value);
+    }
 
     /// <summary>
     /// Validates the <see cref="Title"/> value
@@ -35,13 +45,13 @@ public sealed record Title(string Value)
     /// </summary>
     /// <param name="title">The text to convert</param>
     public static implicit operator string(Title title)
-        => title.ToString();
+        => title.Value;
 
     /// <summary>
-    /// Implicitly converts a <see langword="string"/> to a <see cref="Title"/> object.
+    /// Explicitly converts a <see langword="string"/> to a <see cref="Title"/> object.
     /// </summary>
     /// <param name="value">The string value to convert</param>
-    public static implicit operator Title(string value)
+    public static explicit operator Title(string value)
         => new(value);
 
     /// <inheritdoc/>

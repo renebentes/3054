@@ -16,7 +16,7 @@ namespace Dima.Api.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0")
+                .HasAnnotation("ProductVersion", "10.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -42,8 +42,10 @@ namespace Dima.Api.Data.Migrations
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("Text")
+                                .ValueGeneratedOnAdd()
                                 .HasMaxLength(255)
                                 .HasColumnType("text")
+                                .HasDefaultValue("")
                                 .HasColumnName("Description");
 
                             b1.HasKey("CategoryId");
