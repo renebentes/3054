@@ -16,12 +16,27 @@ updates:
     open-pull-requests-limit: 10
     commit-message:
       prefix: 'build'
-      include: 'scope'
     groups:
       Aspire:
         patterns:
           - 'Aspire.*'
           - 'Microsoft.Extensions.ServiceDiscovery.*'
+      EntityFrameworkCore:
+        patterns:
+          - 'Microsoft.EntityFrameworkCore.*'
+      MicrosoftExtensions:
+        patterns:
+          - 'Microsoft.Extensions.*'
+      Npgsql:
+        patterns:
+          - 'Npgsql.*'
+      OpenTelemetry:
+        patterns:
+          - 'OpenTelemetry.*'
+      Roslynator:
+        patterns:
+          - 'Roslynator.*'
+
 
   - package-ecosystem: github-actions
     directory: '/'
