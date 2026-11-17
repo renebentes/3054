@@ -2,6 +2,10 @@
   "platformOptions": {
     "resultDirectory": "./test-results"
   },
+  "commandLineOptions": {
+    "coverage": true,
+    "report-xunit-ctrf": true
+  },
   "xUnit": {
     "parallelizeTestCollections": false
   },
