@@ -34,12 +34,12 @@ jobs:
         run: dotnet build --no-restore -c Release
 
       - name: Run Unit Tests with coverage
-        run: dotnet run --project ./tests/**/*UnitTests.csproj --no-restore --no-build -c Release --coverage --report-xunit-ctrf
+        run: dotnet test --project ./tests/**/*UnitTests.csproj --no-restore --no-build -c Release
 
       - name: Code Coverage Summary Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          filename: 'test-results/**/*.cobertura.xml'
+          filename: './test-results/*.cobertura.xml'
           badge: true
           format: markdown
           hide_branch_rate: false
@@ -56,9 +56,25 @@ jobs:
         if: always()
         uses: ctrf-io/github-test-reporter@v1
         with:
-          report-path: 'test-results/*.ctrf'
+          report-path: './test-results/*.ctrf'
+          fail-rate-report: true
+          failed-report: true
+          flaky-rate-report: true
+          flaky-report: true
           github-report: true
-          fetch-previous-results: true
+          insights-report: true
+          previous-results-report: true
+          slowest-report: true
+          summary-delta-report: true
           upload-artifact: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Test Report Summary
+        if: always()
+        uses: ctrf-io/github-test-reporter@v1
+        with:
+          report-path: './test-results/*.ctrf'
+          annotate: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
