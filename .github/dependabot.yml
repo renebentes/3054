@@ -16,7 +16,7 @@ updates:
     open-pull-requests-limit: 10
     commit-message:
       prefix: 'build'
-      # EF major upgrades require coordinated runtime, provider, and tooling changes.
+    # EF major upgrades require coordinated runtime, provider, and tooling changes.
     ignore:
       - dependency-name: 'Microsoft.EntityFrameworkCore*'
         update-types:
@@ -24,7 +24,6 @@ updates:
       - dependency-name: 'Npgsql.EntityFrameworkCore.PostgreSQL'
         update-types:
           - 'version-update:semver-major'
-
     groups:
       Aspire:
         patterns:
