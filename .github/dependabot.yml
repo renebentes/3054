@@ -16,6 +16,14 @@ updates:
     open-pull-requests-limit: 10
     commit-message:
       prefix: 'build'
+    # EF major upgrades require coordinated runtime, provider, and tooling changes.
+    ignore:
+      - dependency-name: 'Microsoft.EntityFrameworkCore*'
+        update-types:
+          - 'version-update:semver-major'
+      - dependency-name: 'Npgsql.EntityFrameworkCore.PostgreSQL'
+        update-types:
+          - 'version-update:semver-major'
     groups:
       Aspire:
         patterns:
@@ -37,9 +45,7 @@ updates:
         patterns:
           - 'Roslynator.*'
 
-
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
       interval: weekly
-
