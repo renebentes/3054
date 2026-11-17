@@ -56,7 +56,7 @@ jobs:
         if: always()
         uses: ctrf-io/github-test-reporter@v1
         with:
-          report-path: 'test-results/**/*.ctrf'
+          report-path: 'test-results/*.ctrf'
           github-report: true
           fetch-previous-results: true
           upload-artifact: true
