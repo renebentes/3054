@@ -57,9 +57,24 @@ jobs:
         uses: ctrf-io/github-test-reporter@v1
         with:
           report-path: './test-results/*.ctrf'
+          fail-rate-report: true
+          failed-report: true
+          flaky-rate-report: true
+          flaky-report: true
           github-report: true
-          pull-request-report: true
-          fetch-previous-results: true
+          insights-report: true
+          previous-results-report: true
+          slowest-report: true
+          summary-delta-report: true
           upload-artifact: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish Test Report Summary
+        if: always()
+        uses: ctrf-io/github-test-reporter@v1
+        with:
+          report-path: './test-results/*.ctrf'
+          annotate: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
