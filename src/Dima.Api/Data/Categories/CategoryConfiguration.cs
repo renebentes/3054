@@ -27,6 +27,7 @@ internal sealed class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .HasColumnName(nameof(Category.Description))
             .HasColumnType("text")
             .HasMaxLength(Description.MaxLength)
-            .IsRequired(false);
+            .IsRequired(false)
+            .HasDefaultValue(string.Empty);
     }
 }

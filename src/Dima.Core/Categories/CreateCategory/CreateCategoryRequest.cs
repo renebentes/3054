@@ -4,6 +4,6 @@ namespace Dima.Core.Categories.CreateCategory;
 /// Represents a create category request
 /// </summary>
 /// <param name="Title">Gets the <see cref="Category"/> title</param>
-/// <param name="Description">Gets the <see cref="Category"/> description</param>
-public sealed record CreateCategoryRequest(string Title, string Description)
+/// <param name="Description">Gets the <see cref="Category"/> description, or <see langword="null"/> when omitted</param>
+public sealed record CreateCategoryRequest(string Title, string? Description)
     : IRequest<Result<long>>;

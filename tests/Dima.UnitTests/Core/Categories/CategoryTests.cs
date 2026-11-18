@@ -4,76 +4,75 @@ namespace Dima.UnitTests.Core.Categories;
 
 public class CategoryTests
 {
-    private readonly Title _title = new("Category Title");
-    private Category _testCategory = null!;
+    [Fact]
+    public void Category_InitializesTitle_AndEmptyDescription()
+    {
+        var title = new Title("Category Title");
+
+        var category = new Category(title);
+
+        category.Title.ShouldBe(title);
+        category.Description.ShouldBe(Description.Empty);
+    }
 
     [Fact]
-    public void ChangeTitle_UpdatesTitle_WhenTitleIsValid()
+    public void Category_ThrowsArgumentNullException_WhenTitleIsNull()
     {
-        // Arrange
-        _testCategory = CreateCategory();
-        var newTitle = new Title("New Category Title");
+        Action action = () => _ = new Category(null!);
 
-        // Act
-        _testCategory.ChangeTitle(newTitle);
+        action.ShouldThrow<ArgumentNullException>();
+    }
 
-        // Assert
-        _testCategory
-            .Title
-            .ShouldBe(newTitle);
+    [Fact]
+    public void ChangeDescription_AcceptsEmptyDescription()
+    {
+        var category = CreateCategory();
+
+        category.ChangeDescription(Description.Empty);
+
+        category.Description.Text.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void ChangeDescription_ThrowsArgumentNullException_WhenDescriptionIsNull()
+    {
+        var category = CreateCategory();
+        Action action = () => category.ChangeDescription(null!);
+
+        action.ShouldThrow<ArgumentNullException>();
     }
 
     [Fact]
     public void ChangeDescription_UpdatesDescription_WhenDescriptionIsValid()
     {
-        // Arrange
-        _testCategory = CreateCategory();
-        var newDescription = new Description("New Category Title");
+        var category = CreateCategory();
+        var description = new Description("Category description");
 
-        // Act
-        _testCategory.ChangeDescription(newDescription);
+        category.ChangeDescription(description);
 
-        // Assert
-        _testCategory
-            .Description
-            .ShouldBe(newDescription);
+        category.Description.ShouldBe(description);
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData(null)]
-    public void ChangeTitle_ThrowsDomainException_WhenTitleIsInvalid(string? title)
+    [Fact]
+    public void ChangeTitle_ThrowsArgumentNullException_WhenTitleIsNull()
     {
-        // Arrange
-        _testCategory = CreateCategory();
+        var category = CreateCategory();
+        Action action = () => category.ChangeTitle(null!);
 
-        // Act
-        Action action = () =>
-        {
-            var invalidTitle = new Title(title!);
-            _testCategory.ChangeTitle(invalidTitle);
-        };
-
-        // Assert
-        action
-            .ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
+        action.ShouldThrow<ArgumentNullException>();
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData(null)]
-    public void Category_ThrowsDomainException_WhenTitleIsInvalid(string? title)
+    [Fact]
+    public void ChangeTitle_UpdatesTitle_WhenTitleIsValid()
     {
-        // Act
-        Action action = () => _ = new Category(new Title(title!));
+        var category = CreateCategory();
+        var newTitle = new Title("New Category Title");
 
-        // Assert
-        action
-            .ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
+        category.ChangeTitle(newTitle);
+
+        category.Title.ShouldBe(newTitle);
     }
 
-    private Category CreateCategory()
-        => new(_title);
+    private static Category CreateCategory()
+        => new(new Title("Category Title"));
 }

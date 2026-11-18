@@ -53,8 +53,12 @@ public class UpdateCategoryHandler(
             return Result.NotFound(DomainErrors.Category.NotFound);
         }
 
-        category.ChangeTitle(request.Title);
-        category.ChangeDescription(request.Description);
+        var title = new Title(request.Title);
+        var description = request.Description is null
+            ? Description.Empty
+            : new Description(request.Description);
+        category.ChangeTitle(title);
+        category.ChangeDescription(description);
 
         context
             .Categories
