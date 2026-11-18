@@ -50,14 +50,37 @@ public class TitleTests
         title.Value.ShouldBe(expected);
     }
 
+    [Theory]
+    [InlineData("  test title  ", "test title")]
+    [InlineData("\ttest title\n", "test title")]
+    public void Title_TrimsWhitespace_WhenValueHasLeadingOrTrailingWhitespace(string input, string expected)
+    {
+        var title = new Title(input);
+
+        title.Value.ShouldBe(expected);
+    }
+
     [Fact]
-    public void Title_ThrowsDomainException_WhenValueExceedsMaxLength()
+    public void Title_AcceptsInputLongerThanMaximum_WhenTrimmedValueIsWithinMaximum()
+    {
+        var expected = new string('a', Title.MaxLength);
+
+        var title = new Title($" {expected} ");
+
+        title.Value.ShouldBe(expected);
+    }
+
+    [Fact]
+    public void Constructor_ThrowsDomainException_WhenValueExceedsMaxLength()
     {
         var value = new string('a', Title.MaxLength + 1);
 
         Action action = () => _ = new Title(value);
 
-        action.ShouldThrow<DomainException>(DomainErrors.Title.LongerThanAllowed.ToString());
+        action
+            .ShouldThrow<DomainException>()
+            .Error
+            .ShouldBe(DomainErrors.Title.LongerThanAllowed);
     }
 
     [Theory]
@@ -67,11 +90,14 @@ public class TitleTests
     [InlineData("\n")]
     [InlineData("\r")]
     [InlineData(null)]
-    public void Title_ThrowsDomainException_WhenValueIsNullOrWhiteSpace(string? text)
+    public void Constructor_ThrowsDomainException_WhenValueIsNullOrWhiteSpace(string? text)
     {
         Action action = () => _ = new Title(text!);
 
-        action.ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
+        action
+            .ShouldThrow<DomainException>()
+            .Error
+            .ShouldBe(DomainErrors.Title.NullOrEmpty);
     }
 
     [Theory]
@@ -92,7 +118,10 @@ public class TitleTests
 
         Action action = () => _ = title with { Value = value };
 
-        action.ShouldThrow<DomainException>(DomainErrors.Title.LongerThanAllowed.ToString());
+        action
+            .ShouldThrow<DomainException>()
+            .Error
+            .ShouldBe(DomainErrors.Title.LongerThanAllowed);
     }
 
     [Theory]
@@ -105,7 +134,10 @@ public class TitleTests
 
         Action action = () => _ = title with { Value = value! };
 
-        action.ShouldThrow<DomainException>(DomainErrors.Title.NullOrEmpty.ToString());
+        action
+            .ShouldThrow<DomainException>()
+            .Error
+            .ShouldBe(DomainErrors.Title.NullOrEmpty);
     }
 
     [Fact]

@@ -25,6 +25,12 @@ Você pode encontrar os originais em:
 
 Acompanhe as [modificações aqui][changelog].
 
+### Domínio e validação
+
+- `Title` e `Description` removem espaços em branco no início e no fim antes de validar e armazenar o valor. O tamanho máximo é aplicado ao valor normalizado.
+- A normalização compartilhada é feita por `TrimWhitespace`, em `Dima.Core.Primitives`; essa operação transforma a string, enquanto `Ensure` verifica condições sem normalizar a entrada.
+- `Ensure.MaxLength` rejeita limites negativos com `ArgumentOutOfRangeException`. `Ensure.NotEmpty` trata `null`, vazio e texto composto apenas por espaços como violações da regra de domínio e lança `DomainException`.
+
 ## Licença
 
 Copyright (c) 2024 Rene Bentes Pinto

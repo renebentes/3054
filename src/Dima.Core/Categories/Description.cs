@@ -40,9 +40,7 @@ public sealed record Description
     /// <exception cref="DomainException">Thrown when the description exceeds the maximum length.</exception>
     private static string Validate(string text)
     {
-        ArgumentNullException.ThrowIfNull(text);
-
-        var normalizedText = text.Trim();
+        string normalizedText = text.Trim();
 
         if (string.IsNullOrWhiteSpace(normalizedText))
         {

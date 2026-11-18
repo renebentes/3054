@@ -34,10 +34,13 @@ public sealed record Title
     /// <exception cref="DomainException"></exception>
     private static string Validate(string value)
     {
-        Ensure.NotEmpty(value, DomainErrors.Title.NullOrEmpty);
-        Ensure.MaxLength(value, MaxLength, DomainErrors.Title.LongerThanAllowed);
+        value = Ensure.Required(value, DomainErrors.Title.NullOrEmpty);
 
-        return value;
+        string normalizedValue = value.Trim();
+
+        Ensure.MaxLength(normalizedValue, MaxLength, DomainErrors.Title.LongerThanAllowed);
+
+        return normalizedValue;
     }
 
     /// <summary>
