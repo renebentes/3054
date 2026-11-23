@@ -1,18 +1,14 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.6.5">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <UserSecretsId>4ee9e0eb-2f90-4702-b163-0796423e4721</UserSecretsId>
-    <AspireUseCliBundle>true</AspireUseCliBundle>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.Dotnet" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Dima.Services.Migrations\Dima.Services.Migrations.csproj" />
-    <ProjectReference Include="..\Dima.Api\Dima.Api.csproj" />
   </ItemGroup>
 
 </Project>

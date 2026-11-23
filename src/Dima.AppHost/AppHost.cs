@@ -1,3 +1,5 @@
+using Aspire.Hosting.Dotnet;
+
 IDistributedApplicationBuilder builder = DistributedApplication.CreateBuilder(args);
 
 IResourceBuilder<PostgresDatabaseResource> database = builder
@@ -6,14 +8,15 @@ IResourceBuilder<PostgresDatabaseResource> database = builder
     .WithImage("postgres:17")
     .AddDatabase("DimaDb");
 
-IResourceBuilder<ProjectResource> migrations = builder
-    .AddProject<Projects.Dima_Services_Migrations>("dima-migrations")
+IResourceBuilder<DotnetProjectResource> migrations;
+migrations = builder
+    .AddDotnetProject("dima-migrations", "../Dima.Services.Migrations/Dima.Services.Migrations.csproj")
     .WithEnvironment("ConnectionStrings__DimaDb", database)
     .WithReference(database)
     .WaitFor(database);
 
 builder
-    .AddProject<Projects.Dima_Api>("dima-api")
+    .AddDotnetProject("dima-api", "../Dima.Api/Dima.Api.csproj")
     .WithEnvironment("ConnectionStrings__DimaDb", database)
     .WithReference(database)
     .WithReference(migrations)
